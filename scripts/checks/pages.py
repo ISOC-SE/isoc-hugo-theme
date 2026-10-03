@@ -124,3 +124,28 @@ def pages_heading_levels(ctx):
             if skips:
                 problems.append(f"{rel}: {', '.join(skips)}")
         expect(not problems, f"{name} heading problems:\n  " + "\n  ".join(problems[:30]))
+
+
+@check
+def pages_provenance(ctx):
+    box = ctx.main.html("/about/statutes/").find(".entry-content")
+    note = ctx.main.html("/about/statutes/").find("aside.provenance")
+    expect(note is not None and "provenance--imported" in note.classes, "imported provenance notice missing")
+    text = note.text()
+    expect(text.startswith("Imported text. It is copied unchanged from the previous website."), f"imported text {text!r}")
+    expect("Originally published 24 March 2014." in text and "The signatures are left out." in text, f"date and note {text!r}")
+    link = note.find("a")
+    expect(link.attrs.get("href") == "https://old.example.net/statutes/" and link.text() == "old.example.net/statutes",
+           "source link without scheme or trailing slash")
+    expect(box is not None and box.find("aside.provenance") is None, "the notice comes before the content, not inside it")
+    sv = ctx.main.html("/sv/om/stadgar/").find("aside.provenance")
+    expect(sv.text().startswith("Importerad text. Texten kommer oförändrad"), f"sv imported {sv.text()!r}")
+    gen = ctx.main.html("/posts/new-postal-address/").find("aside.provenance")
+    expect("provenance--generated" in gen.classes and gen.text().startswith("Generated text."), "generated notice on a post")
+    expect(len(gen.select("a")) == 2, "a list of sources gives one link each")
+    expect(ctx.main.html("/about/").find("aside.provenance") is None, "no notice without provenance")
+    expect(ctx.edge.html("/provenance/").find("aside.provenance") is None, "unknown kind shows no notice")
+    expect('provenance/: provenance.kind "copied" is not imported, generated or mixed' in ctx.edge.log,
+           "edge log should warn about the unknown kind")
+    mixed = ctx.edge.html("/provenance-mixed/").find("aside.provenance")
+    expect(mixed is not None and mixed.find("a") is None and "/old-path/" in mixed.text(), "relative source as text")

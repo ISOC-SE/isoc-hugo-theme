@@ -187,6 +187,23 @@ The page title is the page's only `<h1>`, so start headings in Markdown at
 Links in Markdown may use content paths, `[contact us](/contact)`. They are
 turned into the right URL for the page's language.
 
+#### Provenance of moved content
+
+When you move content from an earlier website, say where each text comes from.
+Any page, post or event can carry:
+
+```yaml
+provenance:
+  kind: imported        # imported (copied unchanged) | generated (written with an AI model) | mixed
+  source: https://old.example.org/about/   # one URL or a list
+  published: 2014-03-24 # optional: when the original was published
+  note: Personal e-mail addresses are left out.   # optional, Markdown
+```
+
+A notice above the text says which kind it is and links to the source. An
+unknown `kind` logs a warning and shows no notice. To change the wording,
+override the `provenance*` keys in your site's i18n file.
+
 ### News posts (`content/<lang>/posts/`)
 
 ```yaml

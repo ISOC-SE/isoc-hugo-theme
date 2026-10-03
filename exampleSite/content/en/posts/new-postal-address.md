@@ -4,6 +4,9 @@ date: 2025-12-08T09:00:00+01:00
 translationKey: post-postal-address
 categories: [Community]
 summary: The chapter has a new postal address in Malmö.
+provenance:
+  kind: generated
+  source: [https://old.example.net/new-address/, https://old.example.net/contact/]
 ---
 We have a new postal address. From now on you can reach us at:
 

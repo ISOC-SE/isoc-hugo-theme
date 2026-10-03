@@ -2,6 +2,11 @@
 title: Statutes
 translationKey: statutes
 lead: The statutes adopted at the annual general meeting govern how the chapter works.
+provenance:
+  kind: imported
+  source: https://old.example.net/statutes/
+  published: 2014-03-24
+  note: The signatures are left out.
 ---
 ## § 1 Name
 
