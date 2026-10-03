@@ -1,3 +1,4 @@
+{{- partial "provenance.html" . }}
 {{- if .Params.toc }}
 <nav class="toc" aria-label="{{ T "tableOfContents" }}">{{ .TableOfContents | replaceRE `</?nav[^>]*>` "" | safeHTML }}</nav>
 {{- end }}

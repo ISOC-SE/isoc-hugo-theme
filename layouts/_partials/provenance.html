@@ -1,0 +1,34 @@
+{{- /* Where the page's text comes from, for content moved from an earlier site.
+       Context: PAGE. Front matter:
+         provenance:
+           kind: imported | generated | mixed
+           source: https://old.example.org/page/   # one URL or a list
+           published: 2014-03-24                  # optional, original publication date
+           note: Personal e-mail addresses removed.   # optional, Markdown */ -}}
+{{- with .Params.provenance -}}
+{{- $p := . -}}
+{{- $kind := $p.kind | default "" | string -}}
+{{- if not (in (slice "imported" "generated" "mixed") $kind) -}}
+  {{- warnf "%s: provenance.kind %q is not imported, generated or mixed; no provenance notice" $.RelPermalink $kind -}}
+{{- else -}}
+{{- $label := T (printf "provenance%sLabel" (strings.FirstUpper $kind)) -}}
+{{- $sources := $p.source -}}
+{{- if and $sources (not (reflect.IsSlice $sources)) }}{{ $sources = slice $sources }}{{ end -}}
+<aside class="notice provenance provenance--{{ $kind }}" aria-label="{{ $label }}">
+  <p><strong>{{ $label }}.</strong> {{ T (printf "provenance%s" (strings.FirstUpper $kind)) }}
+  {{- with $p.published }}
+  {{- $d := time.AsTime . }} {{ T "provenancePublished" (dict "Date" ($d | time.Format (site.Params.dateFormat | default ":date_long"))) }}
+  {{- end }}
+  {{- with $p.note }} {{ $.RenderString . }}{{ end }}
+  {{- with $sources }} {{ T "provenanceSource" }}:
+  {{- range $i, $s := . }}{{ if $i }},{{ end }}
+  {{- $s = string $s }}
+  {{- $u := partial "func/parse-url.html" (dict "url" $s "page" $) }}
+  {{- if and $u $u.IsAbs }} <a href="{{ $s }}" rel="noopener">{{ strings.TrimSuffix "/" (replaceRE `^https?://(www\.)?` "" $s) }}</a>
+  {{- else }} {{ $s }}
+  {{- end }}
+  {{- end }}.
+  {{- end }}</p>
+</aside>
+{{- end -}}
+{{- end -}}

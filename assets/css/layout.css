@@ -60,3 +60,17 @@
   gap: 40px;
   margin: 0 0 30px;
 }
+
+/* Provenance of moved content (imported or generated text). */
+.provenance {
+  font-size: 0.9em;
+}
+
+.provenance p {
+  margin: 0;
+}
+
+.provenance--generated,
+.provenance--mixed {
+  border-left-color: var(--isoc-depth-blue);
+}

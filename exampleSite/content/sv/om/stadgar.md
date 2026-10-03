@@ -2,6 +2,9 @@
 title: Stadgar
 translationKey: statutes
 lead: Stadgarna antas av årsstämman och styr hur föreningen arbetar.
+provenance:
+  kind: imported
+  source: https://old.example.net/stadgar/
 ---
 ## § 1 Namn
 
