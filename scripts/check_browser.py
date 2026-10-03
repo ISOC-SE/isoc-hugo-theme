@@ -167,6 +167,14 @@ class QuietHandler(SimpleHTTPRequestHandler):
         pass
 
 
+class Server(ThreadingHTTPServer):
+    # Each iframe opens a burst of connections (one request per connection over
+    # HTTP/1.0). With socketserver's default listen backlog of 5 some of them
+    # were dropped before being accepted, so a frame occasionally loaded without
+    # menu.js and the keyboard/menu checks failed at random.
+    request_queue_size = 128
+
+
 def find_chrome():
     for candidate in CHROME_CANDIDATES:
         if not candidate:
@@ -191,7 +199,7 @@ def run_chrome(chrome, url, *flags):
 
 
 def serve(directory):
-    server = ThreadingHTTPServer(("127.0.0.1", 0), functools.partial(QuietHandler, directory=directory))
+    server = Server(("127.0.0.1", 0), functools.partial(QuietHandler, directory=directory))
     threading.Thread(target=server.serve_forever, daemon=True).start()
     return server, f"http://127.0.0.1:{server.server_address[1]}"
 
