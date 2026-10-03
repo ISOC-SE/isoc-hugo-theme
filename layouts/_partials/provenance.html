@@ -15,7 +15,9 @@
 {{- $sources := $p.source -}}
 {{- if and $sources (not (reflect.IsSlice $sources)) }}{{ $sources = slice $sources }}{{ end -}}
 <aside class="notice provenance provenance--{{ $kind }}" aria-label="{{ $label }}">
-  <p><strong>{{ $label }}.</strong> {{ T (printf "provenance%s" (strings.FirstUpper $kind)) }}
+  {{- $key := printf "provenance%s" (strings.FirstUpper $kind) }}
+  {{- if and (eq $kind "generated") (not $sources) }}{{ $key = "provenanceGeneratedNew" }}{{ end }}
+  <p><strong>{{ $label }}.</strong> {{ T $key }}
   {{- with $p.published }}
   {{- $d := time.AsTime . }} {{ T "provenancePublished" (dict "Date" ($d | time.Format (site.Params.dateFormat | default ":date_long"))) }}
   {{- end }}
