@@ -1,0 +1,11 @@
+{{- /* Validate a banner variant.
+       Context: dict "page" PAGE "value" STRING "fallback" STRING ["allowNone" bool].
+       An unknown value logs a warning naming the page and returns the fallback. */ -}}
+{{- $valid := slice "green" "blue" "navy" "teal" -}}
+{{- if .allowNone }}{{ $valid = $valid | append "none" }}{{ end -}}
+{{- $v := .value | default .fallback -}}
+{{- if not (in $valid $v) -}}
+  {{- warnf "%s: unknown banner %q; using %q (valid: %s)" .page.RelPermalink $v .fallback (delimit $valid ", ") -}}
+  {{- $v = .fallback -}}
+{{- end -}}
+{{- return $v -}}

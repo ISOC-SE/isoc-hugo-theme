@@ -1,0 +1,22 @@
+{{- /* Language switcher; rendered only for multilingual sites. Links to the
+       translation of the current page, or to that language's homepage. */ -}}
+{{- if gt (len hugo.Sites) 1 -}}
+{{- $page := . -}}
+<div class="lang-switch" data-dropdown>
+  <button class="lang-switch__toggle" type="button" aria-expanded="false" aria-controls="lang-switch-menu" data-dropdown-toggle>
+    {{- partial "icon.html" (dict "name" "globe") -}}
+    <span class="lang-switch__current" aria-hidden="true">{{ upper site.Language.Name }}</span>
+    <span class="sr-only">{{ T "language" }}: {{ site.Language.Label | default site.Language.Name }}</span>
+    {{- partial "icon.html" (dict "name" "chevron-down") -}}
+  </button>
+  <ul class="lang-switch__menu" id="lang-switch-menu">
+    {{- range hugo.Sites }}
+    {{- $lang := .Language.Name -}}
+    {{- $code := .Language.Locale | default $lang -}}
+    {{- $href := .Home.RelPermalink -}}
+    {{- range $page.AllTranslations }}{{ if eq .Language.Name $lang }}{{ $href = .RelPermalink }}{{ end }}{{ end }}
+    <li><a href="{{ $href }}" lang="{{ $code }}" hreflang="{{ $code }}"{{ if eq $lang site.Language.Name }} aria-current="true"{{ end }}>{{ .Language.Label | default (upper $lang) }}</a></li>
+    {{- end }}
+  </ul>
+</div>
+{{- end -}}

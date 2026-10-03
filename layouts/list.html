@@ -1,0 +1,13 @@
+{{ define "main" }}
+{{ partial "banner.html" (dict "page" .) }}
+<div class="wrap wrap--1180 section">
+  {{- if .Content }}
+  <div class="list-intro">{{ partial "page-content.html" . }}</div>
+  {{- end }}
+  {{- with .Pages }}
+  <div class="card-grid">
+    {{- range . }}{{ partial "card.html" . }}{{ end }}
+  </div>
+  {{- end }}
+</div>
+{{ end }}

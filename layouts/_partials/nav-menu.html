@@ -1,0 +1,19 @@
+{{- /* Recursive menu. Context: dict "page" PAGE "entries" MENU ["sub" true]. */ -}}
+{{- $page := .page -}}
+<ul class="menu{{ if .sub }} menu--sub{{ end }}">
+  {{- range .entries }}
+  {{- $current := $page.IsMenuCurrent .Menu . -}}
+  {{- $active := or $current ($page.HasMenuCurrent .Menu .) -}}
+  {{- with .Page }}{{ if and (not .IsHome) ($page.IsDescendant .) }}{{ $active = true }}{{ end }}{{ end }}
+  <li class="menu-item{{ if .HasChildren }} has-children{{ end }}{{ if $active }} is-active{{ end }}">
+    <a href="{{ .URL }}"{{ if $current }} aria-current="page"{{ end }}>{{ .Name }}</a>
+    {{- if .HasChildren }}
+    <button class="submenu-toggle" type="button" aria-expanded="false" data-submenu-toggle>
+      {{- partial "icon.html" (dict "name" "chevron-down") -}}
+      <span class="sr-only">{{ T "toggleSubmenu" (dict "Name" .Name) }}</span>
+    </button>
+    {{- partial "nav-menu.html" (dict "page" $page "entries" .Children "sub" true) }}
+    {{- end }}
+  </li>
+  {{- end }}
+</ul>

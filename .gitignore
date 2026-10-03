@@ -1,0 +1,16 @@
+.DS_Store
+.check/
+.hugo_build.lock
+exampleSite/public/
+exampleSite/resources/
+tests/edge/public/
+tests/edge/resources/
+tests/crowded/public/
+tests/crowded/resources/
+
+# Original WordPress themes, kept locally as reference only (not part of the Hugo theme)
+genesis/
+genesis-child-chapters-main/
+
+# Python bytecode from the check scripts
+__pycache__/

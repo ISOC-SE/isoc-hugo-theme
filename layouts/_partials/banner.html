@@ -1,0 +1,26 @@
+{{- /* Page banner (WP .inner-page-header). See the Interfaces list in the plan for the context keys. */ -}}
+{{- $p := .page -}}
+{{- $requested := .variant | default $p.Params.banner | default site.Params.defaultBanner -}}
+{{- $variant := partial "func/banner-variant.html" (dict "page" $p "value" $requested "fallback" "blue" "allowNone" true) -}}
+{{- $title := .title | default $p.Title -}}
+{{- $lead := .lead | default $p.Params.lead -}}
+{{- if eq $variant "none" }}
+<header class="page-header">
+  <div class="wrap wrap--1180">
+{{- else }}
+{{- $img := partial "func/banner-image.html" (dict "page" $p "variant" $variant "src" (.image | default $p.Params.banner_image)) }}
+<header class="banner banner--{{ $variant }}"{{ with $img }} style="{{ printf "background-image:url('%s')" .RelPermalink | safeCSS }}"{{ end }}>
+  <div class="wrap wrap--1180 banner__inner">
+{{- end }}
+    {{- with .above }}
+    <div class="banner__above">{{ . }}</div>
+    {{- end }}
+    <h1 class="banner__title">{{ $title }}</h1>
+    {{- with $lead }}
+    <p class="banner__lead">{{ . | markdownify }}</p>
+    {{- end }}
+    {{- with .below }}
+    {{ . }}
+    {{- end }}
+  </div>
+</header>

@@ -1,0 +1,23 @@
+{{ define "main" }}
+{{ partial "banner.html" (dict "page" .) }}
+{{- $ev := partialCached "func/events.html" site.Home site.Language.Name }}
+<div class="wrap wrap--1180 section">
+  {{- if .Content }}
+  <div class="list-intro">{{ partial "page-content.html" . }}</div>
+  {{- end }}
+  <section class="events-group events-group--upcoming" aria-labelledby="events-upcoming">
+    <h2 id="events-upcoming">{{ T "upcomingEvents" }}</h2>
+    {{- with $ev.upcoming }}
+    <div class="event-list">{{ range . }}{{ partial "card-event.html" .page }}{{ end }}</div>
+    {{- else }}
+    <p class="events-empty">{{ T "noUpcomingEvents" }}</p>
+    {{- end }}
+  </section>
+  {{- with $ev.past }}
+  <section class="events-group events-group--past" aria-labelledby="events-past">
+    <h2 id="events-past">{{ T "pastEvents" }}</h2>
+    <div class="event-list">{{ range . }}{{ partial "card-event.html" .page }}{{ end }}</div>
+  </section>
+  {{- end }}
+</div>
+{{ end }}

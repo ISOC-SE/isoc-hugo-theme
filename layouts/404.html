@@ -1,0 +1,9 @@
+{{ define "main" }}
+{{ partial "banner.html" (dict "page" . "title" (T "notFoundTitle") "variant" "blue" "above" "404") }}
+<div class="wrap wrap--1180 section">
+  <div class="entry-content">
+    <p>{{ T "notFoundText" }}</p>
+    <p><a class="btn" href="{{ site.Home.RelPermalink }}">{{ T "backHome" }}</a></p>
+  </div>
+</div>
+{{ end }}

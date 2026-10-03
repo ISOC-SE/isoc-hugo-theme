@@ -1,0 +1,99 @@
+/* Footer (scss/style/_footer.scss): navy band, centred menu, social icons, copyright. */
+.site-footer {
+  padding: 50px 0 30px;
+  background: var(--color-footer);
+  color: #fff;
+  text-align: center;
+}
+
+.site-footer a {
+  color: #fff;
+  text-decoration: none;
+}
+
+.site-footer a:hover,
+.site-footer a:focus-visible,
+.site-footer a[aria-current="page"] {
+  color: var(--color-accent);
+}
+
+.site-footer :focus-visible {
+  outline-color: var(--color-accent);
+}
+
+.footer-menu {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin: 0 0 20px;
+  padding: 0;
+  list-style: none;
+}
+
+.footer-menu li {
+  margin: 0;
+}
+
+.footer-menu a {
+  display: inline-block;
+  padding: 10px 25px;
+  font-size: 18px;
+}
+
+.social-links {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 4px;
+  margin: 0 0 24px;
+  padding: 0;
+  list-style: none;
+}
+
+.social-links li {
+  margin: 0;
+}
+
+.social-links a {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 50px;
+  height: 50px;
+}
+
+.social-links .icon {
+  width: 28px;
+  height: 28px;
+}
+
+.site-footer__text {
+  max-width: 700px;
+  margin: 0 auto 24px;
+  font-size: 16px;
+  line-height: 1.6;
+}
+
+.site-footer__text a {
+  text-decoration: underline;
+}
+
+.site-footer__logo {
+  margin: 0 auto 30px;
+}
+
+.site-footer__logo img {
+  display: inline-block;
+  width: 180px;
+}
+
+.site-footer__copyright {
+  margin: 0;
+  font-size: 16px;
+}
+
+@media (max-width: 767px) {
+  .footer-menu {
+    flex-direction: column;
+  }
+}

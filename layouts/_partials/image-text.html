@@ -1,0 +1,14 @@
+{{- /* Context: dict "page" "src" "alt" "side" (left|right) "ratio" (50-50|30-70|70-30) "content" HTML ["buttons"]. */ -}}
+{{- $side := .side | default "left" -}}
+{{- $ratio := .ratio | default "50-50" -}}
+{{- if not (in (slice "left" "right") $side) }}{{ warnf "image-text: unknown side %q; using \"left\"" $side }}{{ $side = "left" }}{{ end -}}
+{{- if not (in (slice "50-50" "30-70" "70-30") $ratio) }}{{ warnf "image-text: unknown ratio %q; using \"50-50\"" $ratio }}{{ $ratio = "50-50" }}{{ end -}}
+<div class="image-text image-text--{{ $side }} image-text--{{ $ratio }}">
+  <div class="image-text__media">{{ partial "img.html" (dict "page" .page "src" .src "alt" .alt "sizes" "(min-width: 768px) 50vw, 90vw") }}</div>
+  <div class="image-text__body">
+    {{ .content }}
+    {{- with .buttons }}
+    <div class="btn-row">{{ range . }}{{ partial "button.html" . }}{{ end }}</div>
+    {{- end }}
+  </div>
+</div>

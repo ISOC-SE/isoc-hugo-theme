@@ -1,0 +1,18 @@
+{{- /* Content paths ("/about", "board") resolve to the current language's page;
+       other root-relative paths keep the base path; external http(s) links get rel="noopener". */ -}}
+{{- $u := urls.Parse .Destination -}}
+{{- $href := .Destination -}}
+{{- if and (not $u.IsAbs) $u.Path -}}
+  {{- with or (.PageInner.GetPage $u.Path) (.PageInner.Resources.Get $u.Path) -}}
+    {{- $href = .RelPermalink -}}
+    {{- with $u.RawQuery }}{{ $href = printf "%s?%s" $href . }}{{ end -}}
+    {{- with $u.Fragment }}{{ $href = printf "%s#%s" $href . }}{{ end -}}
+  {{- else -}}
+    {{- /* Not a page: a root-relative static file keeps the site's base path. */ -}}
+    {{- if and (hasPrefix .Destination "/") (not (hasPrefix .Destination "//")) -}}
+      {{- $href = strings.TrimPrefix "/" .Destination | relURL -}}
+    {{- end -}}
+  {{- end -}}
+{{- end -}}
+<a href="{{ $href }}"{{ with .Title }} title="{{ . }}"{{ end }}{{ if and $u.IsAbs (in (slice "http" "https") $u.Scheme) }} rel="noopener"{{ end }}>{{ .Text }}</a>
+{{- /**/ -}}

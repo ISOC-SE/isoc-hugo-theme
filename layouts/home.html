@@ -1,0 +1,19 @@
+{{ define "main" }}
+{{- $blocks := .Params.blocks -}}
+{{- if not $blocks -}}
+  {{- $blocks = slice (dict "type" "hero" "tagline" site.Params.description) (dict "type" "latest_posts") (dict "type" "markdown") -}}
+{{- end -}}
+{{- $hasMarkdown := false -}}
+{{- range $blocks }}{{ if eq .type "markdown" }}{{ $hasMarkdown = true }}{{ end }}{{ end -}}
+{{- range $i, $b := $blocks -}}
+  {{- $tpl := printf "blocks/%s.html" (string $b.type) -}}
+  {{- if templates.Exists (printf "_partials/%s" $tpl) -}}
+    {{ partial $tpl (dict "page" $ "block" $b "index" $i) }}
+  {{- else -}}
+    {{- warnf "Homepage block %d has unknown type %q (%s)" $i (string $b.type) $.File.Path -}}
+  {{- end -}}
+{{- end -}}
+{{- if and .Content (not $hasMarkdown) }}
+{{ partial "blocks/markdown.html" (dict "page" . "block" dict) }}
+{{- end }}
+{{ end }}

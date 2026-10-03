@@ -1,0 +1,44 @@
+{{- /* Responsive image.
+       Context: dict "page" PAGE, "src" STRING or "res" RESOURCE,
+       optional "alt" "sizes" "class" "title" "eager" (bool) "fill" ("600x600"). */ -}}
+{{- $res := .res -}}
+{{- $src := .src | default "" -}}
+{{- if and (not $res) $src -}}
+  {{- $res = partial "func/resource.html" (dict "page" .page "src" $src) -}}
+{{- end -}}
+{{- $alt := .alt | default "" -}}
+{{- $loading := "lazy" -}}
+{{- if .eager }}{{ $loading = "eager" }}{{ end -}}
+{{- $class := .class | default "" -}}
+{{- $title := .title | default "" -}}
+{{- if $res -}}
+  {{- $raster := in (slice "jpeg" "png" "webp") $res.MediaType.SubType -}}
+  {{- if and $raster .fill -}}
+    {{- $res = $res.Fill (printf "%s Center" .fill) -}}
+  {{- end -}}
+  {{- if $raster -}}
+    {{- $set := slice -}}
+    {{- range slice 480 800 1200 1600 -}}
+      {{- if lt . $res.Width -}}
+        {{- $set = $set | append (printf "%s %dw" ($res.Resize (printf "%dx" .)).RelPermalink .) -}}
+      {{- end -}}
+    {{- end -}}
+    {{- $set = $set | append (printf "%s %dw" $res.RelPermalink $res.Width) -}}
+    {{- $fallback := $res -}}
+    {{- if gt $res.Width 1200 }}{{ $fallback = $res.Resize "1200x" }}{{ end -}}
+<img src="{{ $fallback.RelPermalink }}" srcset="{{ delimit $set ", " }}" sizes="{{ .sizes | default "100vw" }}" width="{{ $fallback.Width }}" height="{{ $fallback.Height }}" alt="{{ $alt }}" loading="{{ $loading }}" decoding="async"{{ with $class }} class="{{ . }}"{{ end }}{{ with $title }} title="{{ . }}"{{ end }}>
+  {{- else -}}
+<img src="{{ $res.RelPermalink }}" alt="{{ $alt }}" loading="{{ $loading }}" decoding="async"{{ with $class }} class="{{ . }}"{{ end }}{{ with $title }} title="{{ . }}"{{ end }}>
+  {{- end -}}
+{{- else if $src -}}
+  {{- if or (urls.Parse $src).IsAbs (hasPrefix $src "/") -}}
+    {{- $url := $src -}}
+    {{- /* relURL leaves "/x" host-relative, so drop the slash to keep a sub-path base. */ -}}
+    {{- if not (urls.Parse $src).IsAbs }}{{ $url = strings.TrimPrefix "/" $src | relURL }}{{ end -}}
+<img src="{{ $url }}" alt="{{ $alt }}" loading="{{ $loading }}" decoding="async"{{ with $class }} class="{{ . }}"{{ end }}{{ with $title }} title="{{ . }}"{{ end }}>
+  {{- else -}}
+    {{- $from := "site configuration" -}}
+    {{- with .page }}{{ $from = .RelPermalink }}{{ end -}}
+    {{- warnf "Image %q not found (referenced from %s)" $src $from -}}
+  {{- end -}}
+{{- end -}}

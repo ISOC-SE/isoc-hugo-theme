@@ -1,0 +1,20 @@
+{{ define "main" }}
+{{ partial "banner.html" (dict "page" .) }}
+<div class="cards-band section">
+  <div class="wrap wrap--1180">
+    {{- if .Content }}
+    <div class="list-intro">{{ partial "page-content.html" . }}</div>
+    {{- end }}
+    {{ partial "category-nav.html" . }}
+    {{- $pag := .Paginate (where .RegularPagesRecursive "Type" "posts") (site.Params.pagerSize | default 9) }}
+    {{- with $pag.Pages }}
+    <div class="card-grid">
+      {{- range . }}{{ partial "card.html" . }}{{ end }}
+    </div>
+    {{- else }}
+    <p>{{ T "noPosts" }}</p>
+    {{- end }}
+    {{ partial "pagination.html" $pag }}
+  </div>
+</div>
+{{ end }}

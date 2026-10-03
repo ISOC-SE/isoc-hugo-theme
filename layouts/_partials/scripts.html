@@ -1,0 +1,7 @@
+{{- $menu := resources.Get "js/menu.js" | minify | fingerprint -}}
+<script src="{{ $menu.RelPermalink }}" integrity="{{ $menu.Data.Integrity }}" defer></script>
+{{- if site.Params.showSearch }}
+{{ partial "search-config.html" . }}
+{{- $search := resources.Get "js/search.js" | minify | fingerprint }}
+<script src="{{ $search.RelPermalink }}" integrity="{{ $search.Data.Integrity }}" defer></script>
+{{- end }}

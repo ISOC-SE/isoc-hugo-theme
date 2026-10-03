@@ -1,0 +1,26 @@
+{{- /* Card for a post or page (WP .latest-blog-post). Context: PAGE. */ -}}
+{{- $isPost := eq .Type "posts" -}}
+{{- $summary := .Params.lead | default .Summary | plainify | htmlUnescape | strings.TrimSpace -}}
+<article class="card">
+  {{- with .Params.image }}
+  {{- with partial "func/resource.html" (dict "page" $ "src" .) }}
+  {{- if in (slice "jpeg" "png" "webp") .MediaType.SubType }}
+  <div class="card__image">{{ partial "img.html" (dict "res" (.Fill "640x360 Center") "sizes" "(min-width: 1180px) 300px, (min-width: 600px) 45vw, 90vw") }}</div>
+  {{- end }}
+  {{- end }}
+  {{- end }}
+  <div class="card__body">
+    {{- if $isPost }}
+    <p class="card__date"><time datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date | time.Format site.Params.dateFormat }}</time></p>
+    {{- end }}
+    <h3 class="card__title"><a href="{{ .RelPermalink }}">{{ .LinkTitle }}</a></h3>
+    {{- with $summary }}
+    <p class="card__summary">{{ . | truncate 140 }}</p>
+    {{- end }}
+    {{- if $isPost }}
+    {{- with .GetTerms "categories" }}
+    <ul class="card__tags">{{ range . }}<li>{{ .LinkTitle }}</li>{{ end }}</ul>
+    {{- end }}
+    {{- end }}
+  </div>
+</article>

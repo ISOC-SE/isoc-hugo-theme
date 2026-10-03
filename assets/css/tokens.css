@@ -1,0 +1,63 @@
+/* Design tokens. Values come from the Genesis "Internet Chapters" theme
+   (genesis-child-chapters-main/scss/_variables.scss). Sites override the
+   --color-* roles through params.colors in hugo.toml. */
+:root {
+  /* Brand palette */
+  --isoc-navy: #0c1c2c;
+  --isoc-blue: #2b72d6;
+  --isoc-bright-blue: #1d69d3;
+  --isoc-light-blue: #3a82e4;
+  --isoc-depth-blue: #24366e;
+  --isoc-blue-bg: #27376a;
+  --isoc-teal: #40b2a4;
+  --isoc-depth-green: #085856;
+  --isoc-depth-teal: #143e50;
+  --isoc-purple: #7e245c;
+  --isoc-orange: #d25238;
+  --isoc-yellow: #eeca4a;
+  --isoc-neutral-white: #eff2ec;
+  --isoc-neutral-green: #d0e6da;
+  --isoc-putty: #dedad0;
+  --isoc-light-gray: #f1f1f1;
+  --isoc-gray: #6b6b6b;
+
+  /* Roles */
+  --color-text: var(--isoc-navy);
+  --color-heading: var(--isoc-depth-blue);
+  --color-link: var(--isoc-blue);
+  --color-accent: var(--isoc-teal);
+  --color-header: var(--isoc-navy);
+  --color-footer: var(--isoc-navy);
+  --color-button: var(--isoc-depth-blue);
+  --color-bg: #fff;
+  --color-band-light: var(--isoc-neutral-white);
+  --color-band-green: var(--isoc-neutral-green);
+  --color-border: #d9dde3;
+
+  /* Typography */
+  --font-sans: "Hind", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+
+  /* Layout */
+  --wrap: 1280px;
+  --wrap-1180: 1180px;
+  --wrap-960: 960px;
+  --wrap-800: 800px;
+  --wrap-max: 90%;
+  --header-height: 126px;
+  --section-space: 60px;
+
+  /* Shape and effects */
+  --radius: 4px;
+  --radius-pill: 24px;
+  --shadow-card: 0 0 22px 0 rgba(201, 205, 208, 0.6);
+  --shadow-card-hover: 0 0 22px 0 rgba(201, 205, 208, 1);
+  --shadow-panel: 0 3px 30px rgba(0, 0, 0, 0.2);
+  --transition: all 0.3s ease;
+}
+
+@media (max-width: 1179px) {
+  :root {
+    --header-height: 80px;
+    --section-space: 48px;
+  }
+}

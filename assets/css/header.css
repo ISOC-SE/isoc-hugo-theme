@@ -1,0 +1,200 @@
+/* Fixed navy header (scss/style/_header.scss): logo, main menu, tools, Join. */
+.site-header {
+  position: fixed;
+  top: 0;
+  right: 0;
+  left: 0;
+  z-index: 100;
+  background: var(--color-header);
+  color: #fff;
+  transition: box-shadow 0.3s ease;
+}
+
+.site-header.is-scrolled {
+  box-shadow: 0 2px 20px rgba(0, 0, 0, 0.25);
+}
+
+.site-header :focus-visible {
+  outline-color: var(--color-accent);
+}
+
+.site-header__inner {
+  display: flex;
+  align-items: center;
+  height: var(--header-height);
+}
+
+.site-logo {
+  display: block;
+  flex: 0 0 auto;
+  order: 1;
+  width: 100%;
+  line-height: 0;
+}
+
+.site-logo img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+/* Desktop: the nav wrapper dissolves so its children line up in the header row. */
+.site-nav {
+  display: contents;
+}
+
+.nav-primary {
+  order: 2;
+  margin: 0 auto 0 40px;
+}
+
+.lang-switch {
+  order: 3;
+  margin-right: 28px;
+}
+
+.search-toggle {
+  order: 4;
+  margin-right: 28px;
+}
+
+.btn--join {
+  order: 5;
+  min-width: 104px;
+  padding: 8px 32px 6px;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.search-toggle,
+.menu-toggle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: #fff;
+  cursor: pointer;
+}
+
+.search-toggle .icon {
+  width: 22px;
+  height: 22px;
+}
+
+.search-toggle:hover,
+.search-toggle[aria-expanded="true"] {
+  color: var(--color-accent);
+}
+
+.menu-toggle {
+  display: none;
+  order: 6;
+}
+
+.menu-toggle__bars {
+  position: relative;
+  display: block;
+  width: 26px;
+  height: 18px;
+}
+
+.menu-toggle__bars span {
+  position: absolute;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  border-radius: 2px;
+  background: currentColor;
+  transition: transform 0.25s ease, opacity 0.2s ease, top 0.25s ease;
+}
+
+.menu-toggle__bars span:nth-child(1) { top: 0; }
+.menu-toggle__bars span:nth-child(2) { top: 8px; }
+.menu-toggle__bars span:nth-child(3) { top: 16px; }
+
+.menu-open .menu-toggle__bars span:nth-child(1) { top: 8px; transform: rotate(45deg); }
+.menu-open .menu-toggle__bars span:nth-child(2) { opacity: 0; }
+.menu-open .menu-toggle__bars span:nth-child(3) { top: 8px; transform: rotate(-45deg); }
+
+/* Without JavaScript the header cannot collapse to the hamburger when the menu
+   is crowded, so it scrolls with the page and the menu wraps onto more lines
+   instead of pushing Join off-screen. */
+.no-js body {
+  padding-top: 0;
+}
+
+.no-js .site-header {
+  position: static;
+}
+
+@media (min-width: 1180px) {
+  .no-js .site-header__inner {
+    height: auto;
+    min-height: var(--header-height);
+    padding-block: 16px;
+  }
+
+  .no-js .nav-primary {
+    flex: 1 1 0;
+    min-width: 0;
+  }
+
+  .no-js .nav-primary > .menu {
+    flex-wrap: wrap;
+  }
+}
+
+/* Between the mobile breakpoint and 1440px, tighten the row so longer menu
+   labels (e.g. Swedish) fit beside the logo. */
+@media (min-width: 1180px) and (max-width: 1439px) {
+  .site-logo {
+    max-width: 190px !important;
+  }
+
+  .nav-primary {
+    margin-left: 20px;
+  }
+
+  .lang-switch,
+  .search-toggle {
+    margin-right: 12px;
+  }
+
+  .btn--join {
+    min-width: 0;
+    padding: 8px 22px 6px;
+  }
+}
+
+@media (max-width: 1179px) {
+  /* The compact (hamburger) layout lives in compact.css. */
+
+  /* Without JavaScript the toggle cannot work: show the menu in the page flow. */
+  .no-js .site-header__inner {
+    flex-wrap: wrap;
+    height: auto;
+    min-height: var(--header-height);
+    padding: 18px 0;
+  }
+
+  .no-js .site-nav {
+    position: static;
+    order: 7;
+    display: flex;
+    width: 100%;
+    margin-top: 16px;
+    padding: 8px 0 0;
+  }
+
+  .no-js .submenu-toggle {
+    display: none;
+  }
+
+  .no-js .menu-toggle {
+    display: none;
+  }
+}

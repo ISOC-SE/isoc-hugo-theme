@@ -1,0 +1,12 @@
+{{ define "main" }}
+{{ partial "banner.html" (dict "page" .) }}
+<div class="wrap wrap--960 section">
+  <form class="search-form search-form--page" role="search" method="get" action="{{ .RelPermalink }}" data-search-page>
+    <label class="sr-only" for="search-page-input">{{ T "searchSite" }}</label>
+    <input class="search-form__input" id="search-page-input" type="search" name="q" placeholder="{{ T "searchPlaceholder" }}" autocomplete="off">
+    <button class="btn" type="submit">{{ T "search" }}</button>
+  </form>
+  <noscript><p class="notice notice--warning">{{ T "searchJsRequired" }}</p></noscript>
+  <div class="search-results search-results--page" data-search-page-results aria-live="polite"></div>
+</div>
+{{ end }}

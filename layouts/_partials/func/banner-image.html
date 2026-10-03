@@ -1,0 +1,16 @@
+{{- /* Background image for a banner or hero.
+       Context: dict "page" PAGE "variant" STRING "src" STRING ["hero" bool].
+       Returns a resource, or "" for CSS-only variants (navy, teal). */ -}}
+{{- $res := "" -}}
+{{- with .src -}}
+  {{- $res = partial "func/resource.html" (dict "page" $.page "src" .) -}}
+  {{- if not $res }}{{ warnf "%s: banner image %q not found" $.page.RelPermalink . }}{{ end -}}
+{{- else -}}
+  {{- $patterns := dict "green" "images/patterns/green-header.jpg" "blue" "images/patterns/blue-header.jpg" -}}
+  {{- if .hero }}{{ $patterns = merge $patterns (dict "green" "images/patterns/green-hero.jpg") }}{{ end -}}
+  {{- with index $patterns .variant }}{{ $res = resources.Get . }}{{ end -}}
+{{- end -}}
+{{- if and $res (in (slice "jpeg" "png" "webp") $res.MediaType.SubType) (gt $res.Width 2400) -}}
+  {{- $res = $res.Resize "2400x" -}}
+{{- end -}}
+{{- return $res -}}

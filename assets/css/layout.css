@@ -1,0 +1,62 @@
+/* Containers and full-width bands. Widths follow the WP theme's
+   $fixed-body (1280), $fixed-1180, $fixed-96 (960) with $max-fixed (90%). */
+.wrap {
+  width: var(--wrap);
+  max-width: var(--wrap-max);
+  margin-inline: auto;
+}
+
+.wrap--1180 { width: var(--wrap-1180); }
+.wrap--960 { width: var(--wrap-960); }
+.wrap--800 { width: var(--wrap-800); }
+
+.section {
+  padding-block: var(--section-space);
+}
+
+.band {
+  padding-block: var(--section-space);
+}
+
+.band--white { background: #fff; }
+.band--light { background: var(--color-band-light); }
+.band--green { background: var(--color-band-green); }
+
+.band--navy,
+.band--blue {
+  color: #fff;
+}
+
+.band--navy { background: var(--isoc-navy); }
+.band--blue { background: var(--isoc-depth-blue); }
+
+.band--navy h2,
+.band--blue h2,
+.band--navy a:not(.btn),
+.band--blue a:not(.btn) {
+  color: #fff;
+}
+
+.band--navy :focus-visible,
+.band--blue :focus-visible {
+  outline-color: var(--color-accent);
+}
+
+.notice {
+  margin: 0 0 30px;
+  padding: 16px 20px;
+  border-left: 4px solid var(--color-link);
+  background: var(--color-band-light);
+}
+
+.notice--warning {
+  border-left-color: var(--isoc-orange);
+  background: #fbeee9;
+}
+
+.columns {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 40px;
+  margin: 0 0 30px;
+}

@@ -1,0 +1,4 @@
+{{- if .Params.toc }}
+<nav class="toc" aria-label="{{ T "tableOfContents" }}">{{ .TableOfContents | replaceRE `</?nav[^>]*>` "" | safeHTML }}</nav>
+{{- end }}
+<div class="entry-content">{{ .Content }}</div>

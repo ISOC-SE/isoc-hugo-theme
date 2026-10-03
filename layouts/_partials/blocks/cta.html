@@ -1,0 +1,9 @@
+{{- $b := .block -}}
+{{- $bg := $b.background | default "navy" -}}
+{{- $text := "" -}}
+{{- with $b.text }}{{ $text = $.page.RenderString (dict "display" "block") . }}{{ end -}}
+<section class="block block-cta band band--{{ $bg }}">
+  <div class="wrap wrap--960 reveal">
+    {{ partial "cta.html" (dict "title" $b.title "text" $text "button" $b.button "background" $bg) }}
+  </div>
+</section>

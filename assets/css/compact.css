@@ -1,0 +1,97 @@
+/* Compact header: hamburger button + full-height menu panel.
+   Written once with a ".nav-compact " prefix; head/css.html emits it twice:
+     1. inside @media (max-width: 1179px) with the prefix removed (phones, tablets);
+     2. as written, for desktops where menu.js finds the menu too wide to fit
+        and adds html.nav-compact. */
+.nav-compact .site-logo {
+  max-width: 170px !important;
+  margin-right: auto;
+}
+
+.nav-compact .menu-toggle {
+  display: inline-flex;
+  margin-left: 4px;
+}
+
+.nav-compact .search-toggle {
+  order: 5;
+  margin: 0;
+}
+
+.nav-compact .site-nav {
+  position: fixed;
+  top: var(--header-height);
+  right: 0;
+  bottom: 0;
+  left: 0;
+  display: none;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 24px;
+  padding: 16px 5% 48px;
+  overflow-y: auto;
+  background: var(--color-header);
+  border-top: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.nav-compact .menu-open .site-nav {
+  display: flex;
+}
+
+.nav-compact .nav-primary {
+  width: 100%;
+  margin: 0;
+}
+
+.nav-compact .lang-switch {
+  margin: 0;
+}
+
+.nav-compact .nav-primary > .menu {
+  flex-direction: column;
+  align-items: stretch;
+}
+
+.nav-compact .nav-primary > .menu > .menu-item {
+  flex-wrap: wrap;
+  padding: 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.nav-compact .nav-primary > .menu > .menu-item > a {
+  flex: 1;
+  padding: 14px 0;
+  font-size: 20px;
+}
+
+.nav-compact .submenu-toggle {
+  width: 44px;
+  height: 44px;
+}
+
+.nav-compact .menu--sub {
+  position: static;
+  width: 100%;
+  min-width: 0;
+  padding: 0 0 12px 16px;
+  background: transparent;
+  box-shadow: none;
+}
+
+.nav-compact .nav-primary .menu--sub a {
+  padding: 10px 0;
+  color: #fff;
+  font-size: 18px;
+}
+
+.nav-compact .nav-primary .menu--sub a:hover,
+.nav-compact .nav-primary .menu--sub a:focus-visible,
+.nav-compact .nav-primary .menu--sub a[aria-current="page"] {
+  background: transparent;
+  color: var(--color-accent);
+}
+
+.nav-compact .lang-switch__menu {
+  right: auto;
+  left: 0;
+}

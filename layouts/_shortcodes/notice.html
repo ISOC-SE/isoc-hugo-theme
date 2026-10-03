@@ -1,0 +1,1 @@
+<div class="notice{{ with .Get "type" }}{{ if ne . "info" }} notice--{{ . }}{{ end }}{{ end }}">{{ .Page.RenderString (dict "display" "block") (.Inner | strings.TrimSpace) }}</div>

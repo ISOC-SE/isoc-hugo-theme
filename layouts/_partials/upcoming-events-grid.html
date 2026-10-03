@@ -1,0 +1,7 @@
+{{- /* Context: dict "count" N. Renders nothing when there are no upcoming events. */ -}}
+{{- $ev := partialCached "func/events.html" site.Home site.Language.Name -}}
+{{- with first (int (.count | default 3)) $ev.upcoming -}}
+<div class="event-list event-list--grid">
+  {{- range . }}{{ partial "card-event.html" .page }}{{ end }}
+</div>
+{{- end -}}

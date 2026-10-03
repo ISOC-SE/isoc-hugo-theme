@@ -1,0 +1,4 @@
+<p class="banner__meta post-meta">
+  <time datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date | time.Format site.Params.dateFormat }}</time>
+  {{- with .Params.authors }}<br><span class="post-meta__authors">{{ T "by" }} {{ delimit . ", " }}</span>{{ end }}
+</p>

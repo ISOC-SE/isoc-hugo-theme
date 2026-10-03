@@ -1,0 +1,15 @@
+<!doctype html>
+<html lang="{{ site.Language.Locale | default site.Language.Name }}" dir="{{ site.Language.Direction | default "ltr" }}" class="no-js">
+<head>
+{{ partial "head.html" . }}
+</head>
+<body class="{{ partial "func/body-class.html" . }}">
+<a class="skip-link" href="#main">{{ T "skipToContent" }}</a>
+{{ partial "header.html" . }}
+<main id="main" tabindex="-1">
+{{ block "main" . }}{{ end }}
+</main>
+{{ partial "footer.html" . }}
+{{ partial "scripts.html" . }}
+</body>
+</html>

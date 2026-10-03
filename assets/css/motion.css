@@ -1,0 +1,30 @@
+/* Gentle reveal on scroll, replacing the WP theme's GSAP animations.
+   Blocks are hidden only after JS has added html.can-reveal, and never when
+   the visitor prefers reduced motion. */
+.can-reveal .reveal {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+
+.can-reveal .reveal.is-visible {
+  opacity: 1;
+  transform: none;
+}
+
+@media print {
+  .can-reveal .reveal {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

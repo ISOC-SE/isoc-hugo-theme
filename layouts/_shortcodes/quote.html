@@ -1,0 +1,1 @@
+{{- partial "quote.html" (dict "text" (.Page.RenderString (dict "display" "block") (.Inner | strings.TrimSpace)) "author" (.Get "author") "role" (.Get "role")) -}}

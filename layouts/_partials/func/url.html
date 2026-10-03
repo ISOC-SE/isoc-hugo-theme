@@ -1,0 +1,19 @@
+{{- /* Resolve a link from front matter or config.
+       - Content paths such as "/about" (optionally with ?query or #fragment)
+         become the current language's permalink.
+       - Other root-relative paths (files in static/) get the site's base path,
+         so they work when the site is served from a sub-path.
+       - Absolute URLs pass through unchanged. */ -}}
+{{- $u := .url | default "" -}}
+{{- if and (hasPrefix $u "/") (not (hasPrefix $u "//")) -}}
+  {{- $p := urls.Parse $u -}}
+  {{- $suffix := "" -}}
+  {{- with $p.RawQuery }}{{ $suffix = printf "?%s" . }}{{ end -}}
+  {{- with $p.Fragment }}{{ $suffix = printf "%s#%s" $suffix . }}{{ end -}}
+  {{- with site.GetPage (strings.TrimSuffix "/" $p.Path | default "/") -}}
+    {{- $u = printf "%s%s" .RelPermalink $suffix -}}
+  {{- else -}}
+    {{- $u = printf "%s%s" (strings.TrimPrefix "/" $p.Path | relURL) $suffix -}}
+  {{- end -}}
+{{- end -}}
+{{- return $u -}}

@@ -1,0 +1,30 @@
+{{- /* Bundle every component stylesheet that exists, in cascade order. */ -}}
+{{- $names := slice "fonts" "tokens" "base" "layout" "header" "nav" "hero" "content" "cards" "news" "blocks" "events" "search" "footer" "motion" "custom" -}}
+{{- $files := slice -}}
+{{- range $names -}}
+  {{- with resources.Get (printf "css/%s.css" .) -}}
+    {{- $files = $files | append . -}}
+  {{- end -}}
+  {{- if eq . "nav" -}}
+    {{- /* compact.css (hamburger layout) applies below 1180px, and on wider
+           screens once menu.js adds html.nav-compact because the menu doesn't fit. */ -}}
+    {{- with resources.Get "css/compact.css" -}}
+      {{- $media := printf "@media (max-width: 1179px) {\n%s\n}\n" (replace .Content ".nav-compact " "") -}}
+      {{- $files = $files | append (resources.FromString "css/compact-media.css" $media) . -}}
+    {{- end -}}
+  {{- end -}}
+{{- end -}}
+{{- $css := $files | resources.Concat "css/main.css" | minify | fingerprint -}}
+<link rel="stylesheet" href="{{ $css.RelPermalink }}" integrity="{{ $css.Data.Integrity }}">
+{{- with site.Params.colors }}
+{{- $colors := . -}}
+{{- $vars := slice -}}
+{{- range $key := slice "link" "accent" "header" "footer" "button" -}}
+  {{- with index $colors $key -}}
+    {{- $vars = $vars | append (printf "--color-%s:%s" $key .) -}}
+  {{- end -}}
+{{- end -}}
+{{- with $vars }}
+<style>:root{ {{- delimit . ";" | safeCSS -}} }</style>
+{{- end }}
+{{- end }}

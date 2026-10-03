@@ -1,0 +1,60 @@
+# Header-fit fixture: ISOC-SE's real Swedish menu (six top-level items, long
+# labels) plus a language switcher, search and Join. Used by the browser checks.
+baseURL = "https://crowded.example.org/"
+theme = "isoc-hugo-theme"
+defaultContentLanguage = "sv"
+
+[languages]
+  [languages.sv]
+    locale = "sv-SE"
+    label = "Svenska"
+    title = "Internet Society Sverige"
+    weight = 1
+  [languages.en]
+    locale = "en-GB"
+    label = "English"
+    title = "Internet Society Sweden"
+    weight = 2
+
+[[languages.sv.menus.main]]
+  identifier = "om"
+  name = "Om ISOC-SE"
+  url = "/om-isoc-se/"
+  weight = 10
+[[languages.sv.menus.main]]
+  parent = "om"
+  name = "Detta vill ISOC-SE"
+  url = "/om-isoc-se/detta-vill-isoc-se/"
+  weight = 11
+[[languages.sv.menus.main]]
+  name = "Nyheter"
+  url = "/category/nyheter/"
+  weight = 20
+[[languages.sv.menus.main]]
+  identifier = "medlemskap"
+  name = "Medlemskap"
+  url = "/bli-medlem/"
+  weight = 30
+[[languages.sv.menus.main]]
+  parent = "medlemskap"
+  name = "Att bli individuell medlem"
+  url = "/bli-medlem/att-bli-individuell-medlem/"
+  weight = 31
+[[languages.sv.menus.main]]
+  name = "Publikationer"
+  url = "/publikationer/"
+  weight = 40
+[[languages.sv.menus.main]]
+  identifier = "arkiv"
+  name = "Föreningsarkiv"
+  url = "/foreningsarkiv/"
+  weight = 50
+[[languages.sv.menus.main]]
+  parent = "arkiv"
+  name = "Remisser"
+  url = "/foreningsarkiv/remisser/"
+  weight = 51
+[[languages.sv.menus.main]]
+  name = "Kontakt"
+  url = "/kontakt/"
+  weight = 60

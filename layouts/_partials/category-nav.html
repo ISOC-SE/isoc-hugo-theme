@@ -1,0 +1,10 @@
+{{- $current := . -}}
+{{- with site.Taxonomies.categories -}}
+<nav aria-label="{{ T "categories" }}">
+  <ul class="category-nav">
+    {{- range .Alphabetical }}
+    <li><a href="{{ .Page.RelPermalink }}"{{ if eq .Page $current }} aria-current="page"{{ end }}>{{ .Page.LinkTitle }} ({{ .Count }})</a></li>
+    {{- end }}
+  </ul>
+</nav>
+{{- end -}}

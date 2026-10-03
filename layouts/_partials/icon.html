@@ -1,0 +1,11 @@
+{{- /* Inline an SVG icon from assets/images/<set>/<name>.svg.
+       Context: dict "name" NAME ["set" "icons"|"social"] ["class" EXTRA]. */ -}}
+{{- $set := .set | default "icons" -}}
+{{- $path := printf "images/%s/%s.svg" $set .name -}}
+{{- with resources.Get $path -}}
+  {{- $class := printf "icon icon--%s" $.name -}}
+  {{- with $.class }}{{ $class = printf "%s %s" $class . }}{{ end -}}
+  {{- replaceRE `^\s*<svg\b` (printf `<svg class="%s" aria-hidden="true" focusable="false"` $class) .Content 1 | safeHTML -}}
+{{- else -}}
+  {{- warnf "icon %q not found at assets/%s" $.name $path -}}
+{{- end -}}

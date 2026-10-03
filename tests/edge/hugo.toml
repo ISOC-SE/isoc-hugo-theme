@@ -1,0 +1,19 @@
+# Edge-case fixture: one language, sub-path base URL, deliberately odd settings.
+baseURL = "https://edge.example.org/sub/"
+theme = "isoc-hugo-theme"
+defaultContentLanguage = "sv"
+timeZone = "Europe/Stockholm"
+
+[languages]
+  [languages.sv]
+    locale = "sv-SE"
+    label = "Svenska"
+    title = "Edge Chapter"
+    weight = 1
+
+[params]
+  defaultBanner = "green"
+  logo = "/images/logo.svg"   # a static/ file, not an asset
+  showSearch = false
+  [params.colors]
+    link = "#7e245c"

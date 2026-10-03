@@ -1,0 +1,22 @@
+{{- $pag := . -}}
+{{- if gt $pag.TotalPages 1 -}}
+<nav class="pagination" aria-label="{{ T "pagination" }}">
+  {{- with $pag.Prev }}
+  <a class="pagination__prev" href="{{ .URL }}" rel="prev">{{ T "newerPosts" }}</a>
+  {{- end }}
+  <ul class="pagination__pages">
+    {{- range $pag.Pagers }}
+    <li>
+      {{- if eq .PageNumber $pag.PageNumber }}
+      <span aria-current="page">{{ .PageNumber }}</span>
+      {{- else }}
+      <a href="{{ .URL }}" aria-label="{{ T "pageN" (dict "Number" .PageNumber) }}">{{ .PageNumber }}</a>
+      {{- end }}
+    </li>
+    {{- end }}
+  </ul>
+  {{- with $pag.Next }}
+  <a class="pagination__next" href="{{ .URL }}" rel="next">{{ T "olderPosts" }}</a>
+  {{- end }}
+</nav>
+{{- end -}}

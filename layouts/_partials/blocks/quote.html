@@ -1,0 +1,6 @@
+{{- $b := .block -}}
+<section class="block block-quote{{ with $b.background }} band band--{{ . }}{{ end }}">
+  <div class="wrap wrap--960 reveal">
+    {{ partial "quote.html" (dict "text" (.page.RenderString (dict "display" "block") ($b.text | default "")) "author" $b.author "role" $b.role) }}
+  </div>
+</section>

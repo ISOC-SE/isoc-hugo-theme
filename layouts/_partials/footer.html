@@ -1,0 +1,23 @@
+<footer class="site-footer">
+  <div class="wrap site-footer__inner">
+    {{- with site.Menus.footer }}
+    <nav class="footer-nav" aria-label="{{ T "footerMenu" }}">
+      <ul class="footer-menu">
+        {{- range . }}
+        <li><a href="{{ .URL }}"{{ if $.IsMenuCurrent .Menu . }} aria-current="page"{{ end }}>{{ .Name }}</a></li>
+        {{- end }}
+      </ul>
+    </nav>
+    {{- end }}
+    {{ partial "social-links.html" . }}
+    {{- with site.Params.footerText }}
+    <div class="site-footer__text">{{ $.RenderString . }}</div>
+    {{- end }}
+    {{- with site.Params.footerLogo }}
+    {{- with resources.Get (strings.TrimPrefix "/" .) }}
+    <div class="site-footer__logo"><img src="{{ .RelPermalink }}" alt="{{ site.Params.footerLogoAlt | default "" }}" width="180"></div>
+    {{- end }}
+    {{- end }}
+    <p class="site-footer__copyright">{{ partial "func/copyright.html" . }}</p>
+  </div>
+</footer>

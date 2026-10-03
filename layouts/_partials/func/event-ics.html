@@ -1,0 +1,33 @@
+{{- /* Publish <event URL>event.ics and return the resource. Context: event PAGE. */ -}}
+{{- $p := . -}}
+{{- $d := partial "func/event-dates.html" $p -}}
+{{- $utc := "20060102T150405Z" -}}
+{{- $host := (urls.Parse site.BaseURL).Host -}}
+{{- $lines := slice "BEGIN:VCALENDAR" "VERSION:2.0" (printf "PRODID:-//%s//ISOC Chapters Hugo theme//%s" site.Title (upper site.Language.Name)) "CALSCALE:GREGORIAN" "METHOD:PUBLISH" "BEGIN:VEVENT" -}}
+{{- $lines = $lines | append (printf "UID:%s@%s" (md5 $p.Permalink) $host) -}}
+{{- $lines = $lines | append (printf "DTSTAMP:%s" ($p.Lastmod.UTC.Format $utc)) -}}
+{{- if $p.Params.all_day -}}
+  {{- $lines = $lines | append (printf "DTSTART;VALUE=DATE:%s" ($d.start.Format "20060102")) -}}
+  {{- $lines = $lines | append (printf "DTEND;VALUE=DATE:%s" (($d.end.AddDate 0 0 1).Format "20060102")) -}}
+{{- else -}}
+  {{- $end := $d.end -}}
+  {{- if not $d.hasEnd }}{{ $end = $d.start.Add (time.ParseDuration "1h") }}{{ end -}}
+  {{- $lines = $lines | append (printf "DTSTART:%s" ($d.start.UTC.Format $utc)) -}}
+  {{- $lines = $lines | append (printf "DTEND:%s" ($end.UTC.Format $utc)) -}}
+{{- end -}}
+{{- $lines = $lines | append (printf "SUMMARY:%s" (partial "func/ics-escape.html" $p.Title)) -}}
+{{- with $p.Params.location -}}
+  {{- $lines = $lines | append (printf "LOCATION:%s" (partial "func/ics-escape.html" .)) -}}
+{{- else -}}
+  {{- if $p.Params.online }}{{ $lines = $lines | append (printf "LOCATION:%s" (T "online")) }}{{ end -}}
+{{- end -}}
+{{- $lines = $lines | append (printf "URL:%s" $p.Permalink) -}}
+{{- with $p.Summary | plainify | htmlUnescape | strings.TrimSpace -}}
+  {{- $lines = $lines | append (printf "DESCRIPTION:%s" (partial "func/ics-escape.html" (truncate 300 .))) -}}
+{{- end -}}
+{{- $lines = $lines | append "END:VEVENT" "END:VCALENDAR" -}}
+{{- $body := printf "%s\r\n" (delimit $lines "\r\n") -}}
+{{- /* FromString paths are relative to the publish root and get the base path added back. */ -}}
+{{- $base := (urls.Parse site.BaseURL).Path -}}
+{{- $path := printf "%sevent.ics" (strings.TrimPrefix $base $p.RelPermalink) -}}
+{{- return resources.FromString $path $body -}}

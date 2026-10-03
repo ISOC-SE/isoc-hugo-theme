@@ -1,0 +1,243 @@
+/* Homepage blocks and their shortcode counterparts. */
+.block {
+  padding-block: var(--section-space);
+}
+
+.block__more {
+  margin: 40px 0 0;
+  text-align: center;
+}
+
+/* Image + text (WP .col-with-left-img, .section-30-70, .section-70-30) */
+.image-text {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  align-items: center;
+  gap: 60px;
+  margin: 0 0 30px;
+}
+
+.block .image-text {
+  margin: 0;
+}
+
+.image-text--30-70 { grid-template-columns: minmax(0, 3fr) minmax(0, 7fr); }
+.image-text--70-30 { grid-template-columns: minmax(0, 7fr) minmax(0, 3fr); }
+.image-text--right.image-text--30-70 { grid-template-columns: minmax(0, 7fr) minmax(0, 3fr); }
+.image-text--right.image-text--70-30 { grid-template-columns: minmax(0, 3fr) minmax(0, 7fr); }
+
+.image-text--right .image-text__media {
+  order: 2;
+}
+
+.image-text__media img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.image-text__body > :last-child {
+  margin-bottom: 0;
+}
+
+/* Stats */
+.stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 40px;
+  margin: 0 0 30px;
+  padding: 0;
+  list-style: none;
+  text-align: center;
+}
+
+.block .stats {
+  margin: 0;
+}
+
+.stat {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin: 0;
+}
+
+.stat__value {
+  color: var(--isoc-depth-blue);
+  font-size: 56px;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.stat__label {
+  font-size: 20px;
+  line-height: 1.3;
+}
+
+.band--navy .stat__value,
+.band--blue .stat__value {
+  color: var(--color-accent);
+}
+
+/* Quote with the ISOC parenthesis mark */
+.quote {
+  display: grid;
+  grid-template-columns: 104px minmax(0, 1fr);
+  gap: 0 40px;
+  align-items: start;
+  margin: 0 0 30px;
+}
+
+.block .quote {
+  margin: 0;
+}
+
+.quote__icon {
+  grid-row: span 2;
+  width: 104px;
+  height: auto;
+}
+
+.quote__text {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  color: var(--isoc-depth-blue);
+  font-size: 30px;
+  font-style: normal;
+  line-height: 1.4;
+}
+
+.quote__text p {
+  margin-bottom: 16px;
+}
+
+.quote__cite {
+  display: flex;
+  flex-direction: column;
+  grid-column: 2;
+  margin-top: 24px;
+  font-size: 18px;
+}
+
+.quote__author {
+  font-weight: 600;
+}
+
+.quote__role {
+  color: var(--isoc-gray);
+}
+
+.band--navy .quote__text,
+.band--blue .quote__text,
+.band--navy .quote__role,
+.band--blue .quote__role {
+  color: #fff;
+}
+
+/* Call to action band */
+.cta {
+  text-align: center;
+}
+
+.cta__title {
+  margin: 0 0 20px;
+  color: inherit;
+  font-size: 40px;
+  font-weight: 700;
+  line-height: 1.25;
+}
+
+.band--white .cta__title,
+.band--light .cta__title,
+.band--green .cta__title {
+  color: var(--color-heading);
+}
+
+.cta__text {
+  max-width: 700px;
+  margin: 0 auto 30px;
+  font-size: 21px;
+}
+
+.cta__action {
+  margin: 0;
+}
+
+.cta--box {
+  margin: 0 0 30px;
+  padding: 50px 30px;
+  border-radius: var(--radius);
+}
+
+/* Gallery (static grid instead of the slick slider) */
+.gallery {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 20px;
+  margin: 0 0 30px;
+  padding: 0;
+  list-style: none;
+}
+
+.block .gallery {
+  margin: 0;
+}
+
+.gallery__item,
+.gallery figure {
+  margin: 0;
+}
+
+.gallery img {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 1;
+  object-fit: cover;
+}
+
+.gallery figcaption {
+  margin-top: 8px;
+  font-size: 15px;
+  line-height: 1.4;
+}
+
+@media (max-width: 767px) {
+  .image-text,
+  .image-text--30-70,
+  .image-text--70-30,
+  .image-text--right.image-text--30-70,
+  .image-text--right.image-text--70-30 {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 30px;
+  }
+
+  .image-text--right .image-text__media {
+    order: 0;
+  }
+
+  .stat__value { font-size: 44px; }
+
+  .quote {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .quote__icon {
+    grid-row: auto;
+    width: 64px;
+    margin-bottom: 16px;
+  }
+
+  .quote__text { font-size: 24px; }
+
+  .quote__cite {
+    grid-column: 1;
+  }
+
+  .cta__title { font-size: 30px; }
+
+  .gallery {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}

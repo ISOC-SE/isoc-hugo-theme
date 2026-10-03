@@ -1,0 +1,20 @@
+{{- /* Parsed dates for an event page. Returns dict start end hasEnd past sameDay. */ -}}
+{{- if not .Params.start -}}
+  {{- errorf "%s: events need a \"start\" date in front matter (e.g. start: 2027-03-25T18:00:00+01:00)" .File.Path -}}
+{{- end -}}
+{{- $start := time.AsTime .Params.start -}}
+{{- $end := $start -}}
+{{- $hasEnd := false -}}
+{{- with .Params.end }}{{ $end = time.AsTime . }}{{ $hasEnd = true }}{{ end -}}
+{{- $past := $end.Before now -}}
+{{- if and .Params.all_day (not $past) -}}
+  {{- /* An all-day event is over only after its last day ends. */ -}}
+  {{- $past = ($end.AddDate 0 0 1).Before now -}}
+{{- end -}}
+{{- return dict
+    "start" $start
+    "end" $end
+    "hasEnd" $hasEnd
+    "past" $past
+    "sameDay" (eq ($start.Format "2006-01-02") ($end.Format "2006-01-02"))
+-}}

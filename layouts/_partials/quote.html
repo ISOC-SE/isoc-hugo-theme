@@ -1,0 +1,8 @@
+{{- /* Context: dict "text" HTML "author" "role". */ -}}
+<figure class="quote">
+  <img class="quote__icon" src="{{ (resources.Get "images/quote.svg").RelPermalink }}" alt="" width="104" height="84">
+  <blockquote class="quote__text">{{ .text }}</blockquote>
+  {{- with .author }}
+  <figcaption class="quote__cite"><span class="quote__author">{{ . }}</span>{{ with $.role }}<span class="quote__role">{{ . }}</span>{{ end }}</figcaption>
+  {{- end }}
+</figure>

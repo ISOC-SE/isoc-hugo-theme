@@ -1,0 +1,11 @@
+{{- /* Context: dict "page" PAGE "images" (list of dict "res" or "src", "alt", "caption"). */ -}}
+<ul class="gallery">
+  {{- range .images }}
+  <li class="gallery__item">
+    <figure>
+      {{ partial "img.html" (dict "page" $.page "res" .res "src" .src "alt" .alt "fill" "600x600" "sizes" "(min-width: 768px) 33vw, 50vw") }}
+      {{- with .caption }}<figcaption>{{ . }}</figcaption>{{ end }}
+    </figure>
+  </li>
+  {{- end }}
+</ul>

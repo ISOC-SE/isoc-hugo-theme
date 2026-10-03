@@ -1,0 +1,6 @@
+{{- $b := .block -}}
+<section class="block block-intro{{ with $b.background }} band band--{{ . }}{{ end }}">
+  <div class="wrap wrap--1180 reveal">
+    <div class="lead">{{ .page.RenderString (dict "display" "block") ($b.text | default "") }}</div>
+  </div>
+</section>

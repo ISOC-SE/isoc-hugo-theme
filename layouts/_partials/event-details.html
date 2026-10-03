@@ -1,0 +1,32 @@
+{{- /* Details box. Context: dict "page" PAGE "d" (event-dates result). */ -}}
+{{- $p := .page -}}
+{{- $d := .d -}}
+{{- $ics := partial "func/event-ics.html" $p -}}
+<dl class="event-details">
+  <dt>{{ partial "icon.html" (dict "name" "calendar") }}{{ T "eventDate" }}</dt>
+  <dd><time datetime="{{ $d.start.Format "2006-01-02T15:04:05-07:00" }}">{{ partial "func/event-when.html" (dict "page" $p "d" $d) }}</time></dd>
+  {{- with $p.Params.location }}
+  <dt>{{ partial "icon.html" (dict "name" "map-pin") }}{{ T "location" }}</dt>
+  <dd>{{ . }}</dd>
+  {{- end }}
+  {{- if $p.Params.online }}
+  <dt>{{ partial "icon.html" (dict "name" "video") }}{{ T "online" }}</dt>
+  <dd>{{ with $p.Params.online_url }}<a href="{{ . }}">{{ T "joinOnline" }}</a>{{ else }}{{ T "online" }}{{ end }}</dd>
+  {{- end }}
+  {{- with $p.Params.organizer }}
+  <dt>{{ partial "icon.html" (dict "name" "user") }}{{ T "organizer" }}</dt>
+  <dd>{{ . }}</dd>
+  {{- end }}
+</dl>
+<div class="event-details__actions">
+  {{- if not $d.past }}
+  {{- if $p.Params.registration_closed }}
+  <p class="event-details__closed">{{ T "registrationClosed" }}</p>
+  {{- else }}
+  {{- with $p.Params.registration_url }}
+  <a class="btn" href="{{ . }}">{{ T "register" }}</a>
+  {{- end }}
+  {{- end }}
+  {{- end }}
+  <a class="btn btn--secondary" href="{{ $ics.RelPermalink }}" download>{{ T "addToCalendar" }}</a>
+</div>

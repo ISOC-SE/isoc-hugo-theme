@@ -1,0 +1,8 @@
+{{- $b := .block -}}
+{{- with .page.Content -}}
+<section class="block block-markdown{{ with $b.background }} band band--{{ . }}{{ end }}">
+  <div class="wrap wrap--1180 reveal">
+    <div class="entry-content">{{ . }}</div>
+  </div>
+</section>
+{{- end -}}

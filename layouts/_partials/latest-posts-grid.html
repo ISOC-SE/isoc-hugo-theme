@@ -1,0 +1,8 @@
+{{- /* Context: dict "count" N ["section" NAME]. */ -}}
+{{- $posts := where site.RegularPages "Type" "posts" -}}
+{{- with .section }}{{ $posts = where $posts "Section" . }}{{ end -}}
+{{- with first (int (.count | default 4)) $posts.ByDate.Reverse -}}
+<div class="card-grid card-grid--4">
+  {{- range . }}{{ partial "card.html" . }}{{ end }}
+</div>
+{{- end -}}

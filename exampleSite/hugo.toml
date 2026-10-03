@@ -1,0 +1,136 @@
+baseURL = "https://example.org/"
+theme = "isoc-hugo-theme"
+defaultContentLanguage = "en"
+timeZone = "Europe/Stockholm"
+# Generated titles (e.g. category pages) keep sentence case, as Swedish and ISOC style expect.
+titleCaseStyle = "firstupper"
+enableRobotsTXT = true
+
+[languages]
+  [languages.en]
+    contentDir = "content/en"
+    locale = "en-GB"
+    label = "English"
+    title = "Internet Society Chapter"
+    weight = 1
+    [languages.en.params]
+      description = "Demo site for the ISOC Chapters Hugo theme: an Internet Society chapter working for an open, globally connected, secure and trustworthy Internet."
+      footerText = "Demo site for the [ISOC Chapters Hugo theme](https://github.com/ISOC-SE/isoc-hugo-theme). The Internet Society chapter template, without WordPress."
+  [languages.sv]
+    contentDir = "content/sv"
+    locale = "sv-SE"
+    label = "Svenska"
+    title = "Internet Society Sverige"
+    weight = 2
+    [languages.sv.params]
+      description = "Demosajt för temat ISOC Chapters: en chapter inom Internet Society som arbetar för ett öppet, globalt sammankopplat, säkert och pålitligt internet."
+      footerText = "Demosajt för [Hugo-temat ISOC Chapters](https://github.com/ISOC-SE/isoc-hugo-theme): Internet Societys chaptermall, utan WordPress."
+
+[params]
+  pagerSize = 4
+
+
+# Header menus (pageRef resolves per language, so each language links to its own pages).
+[[languages.en.menus.main]]
+  identifier = "about"
+  name = "About"
+  pageRef = "/about"
+  weight = 10
+[[languages.en.menus.main]]
+  parent = "about"
+  name = "Board"
+  pageRef = "/about/board"
+  weight = 11
+[[languages.en.menus.main]]
+  parent = "about"
+  name = "Statutes"
+  pageRef = "/about/statutes"
+  weight = 12
+[[languages.en.menus.main]]
+  name = "News"
+  pageRef = "/posts"
+  weight = 20
+[[languages.en.menus.main]]
+  name = "Events"
+  pageRef = "/events"
+  weight = 30
+[[languages.en.menus.main]]
+  name = "Membership"
+  pageRef = "/membership"
+  weight = 40
+[[languages.en.menus.main]]
+  name = "Contact"
+  pageRef = "/contact"
+  weight = 50
+
+[[languages.sv.menus.main]]
+  identifier = "om"
+  name = "Om ISOC-SE"
+  pageRef = "/om"
+  weight = 10
+[[languages.sv.menus.main]]
+  parent = "om"
+  name = "Styrelse"
+  pageRef = "/om/styrelse"
+  weight = 11
+[[languages.sv.menus.main]]
+  parent = "om"
+  name = "Stadgar"
+  pageRef = "/om/stadgar"
+  weight = 12
+[[languages.sv.menus.main]]
+  name = "Nyheter"
+  pageRef = "/nyheter"
+  weight = 20
+[[languages.sv.menus.main]]
+  name = "Evenemang"
+  pageRef = "/evenemang"
+  weight = 30
+[[languages.sv.menus.main]]
+  name = "Medlemskap"
+  pageRef = "/medlemskap"
+  weight = 40
+[[languages.sv.menus.main]]
+  name = "Kontakt"
+  pageRef = "/kontakt"
+  weight = 50
+
+
+[[languages.en.menus.footer]]
+  name = "About"
+  pageRef = "/about"
+  weight = 10
+[[languages.en.menus.footer]]
+  name = "Contact"
+  pageRef = "/contact"
+  weight = 20
+[[languages.en.menus.footer]]
+  name = "Privacy policy"
+  pageRef = "/privacy"
+  weight = 30
+
+[[languages.sv.menus.footer]]
+  name = "Om ISOC-SE"
+  pageRef = "/om"
+  weight = 10
+[[languages.sv.menus.footer]]
+  name = "Kontakt"
+  pageRef = "/kontakt"
+  weight = 20
+[[languages.sv.menus.footer]]
+  name = "Integritetspolicy"
+  pageRef = "/integritetspolicy"
+  weight = 30
+
+[[params.social]]
+  name = "linkedin"
+  url = "https://www.linkedin.com/company/internet-society/"
+  label = "LinkedIn"
+[[params.social]]
+  name = "mastodon"
+  url = "https://mastodon.social/@internetsociety"
+  label = "Mastodon"
+[[params.social]]
+  name = "rss"
+  url = "/posts/index.xml"
+  label = "RSS"

@@ -1,0 +1,23 @@
+{{- $desc := partial "func/description.html" . -}}
+{{- $image := "" -}}
+{{- with .Params.image -}}
+  {{- with partial "func/resource.html" (dict "page" $ "src" .) }}{{ $image = .Permalink }}{{ end -}}
+{{- end -}}
+{{- if not $image -}}
+  {{- with site.Params.ogImage }}{{ with resources.Get . }}{{ $image = .Permalink }}{{ end }}{{ end -}}
+{{- end }}
+<meta property="og:site_name" content="{{ site.Title }}">
+<meta property="og:title" content="{{ if .IsHome }}{{ site.Title }}{{ else }}{{ .Title }}{{ end }}">
+<meta property="og:description" content="{{ $desc }}">
+<meta property="og:url" content="{{ .Permalink }}">
+<meta property="og:type" content="{{ if .IsPage }}article{{ else }}website{{ end }}">
+<meta property="og:locale" content="{{ replace (site.Language.Locale | default site.Language.Name) "-" "_" }}">
+{{- with $image }}
+<meta property="og:image" content="{{ . }}">
+<meta name="twitter:card" content="summary_large_image">
+{{- else }}
+<meta name="twitter:card" content="summary">
+{{- end }}
+{{- if and .IsPage (eq .Type "posts") }}
+<meta property="article:published_time" content="{{ .Date.Format "2006-01-02T15:04:05Z07:00" }}">
+{{- end }}

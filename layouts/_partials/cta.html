@@ -1,0 +1,13 @@
+{{- /* Context: dict "title" "text" HTML "button" (dict label url [style]) "background". */ -}}
+{{- $dark := in (slice "navy" "blue") (.background | default "navy") -}}
+<div class="cta">
+  {{- with .title }}
+  <h2 class="cta__title">{{ . }}</h2>
+  {{- end }}
+  {{- with .text }}
+  <div class="cta__text">{{ . }}</div>
+  {{- end }}
+  {{- with .button }}{{ if .url }}
+  <p class="cta__action">{{ partial "button.html" (dict "label" .label "url" .url "style" (.style | default (cond $dark "white" "primary"))) }}</p>
+  {{- end }}{{ end }}
+</div>

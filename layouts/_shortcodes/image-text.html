@@ -1,0 +1,1 @@
+{{- partial "image-text.html" (dict "page" .Page "src" (.Get "image") "alt" (.Get "alt") "side" (.Get "side") "ratio" (.Get "ratio") "content" (.Page.RenderString (dict "display" "block") (.Inner | strings.TrimSpace))) -}}

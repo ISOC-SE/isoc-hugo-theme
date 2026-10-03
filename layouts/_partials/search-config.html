@@ -1,0 +1,16 @@
+{{- $idx := partialCached "func/search-index.html" . site.Language.Name -}}
+{{- $fuse := resources.Get "js/vendor/fuse.basic.min.js" | fingerprint -}}
+{{- $page := "" -}}
+{{- with site.GetPage "/search" }}{{ $page = .RelPermalink }}{{ end -}}
+{{- $cfg := dict
+    "index" $idx.RelPermalink
+    "fuse" $fuse.RelPermalink
+    "fuseIntegrity" $fuse.Data.Integrity
+    "page" $page
+    "i18n" (dict
+      "noResults" (T "searchNoResults")
+      "results" (T "searchResultsCount")
+      "seeAll" (T "searchSeeAll")
+      "error" (T "searchError"))
+-}}
+<script type="application/json" id="search-config">{{ $cfg | jsonify | safeJS }}</script>

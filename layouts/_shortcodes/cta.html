@@ -1,0 +1,4 @@
+{{- $bg := .Get "background" | default "navy" -}}
+<div class="cta--box band band--{{ $bg }}">
+  {{ partial "cta.html" (dict "title" (.Get "title") "text" (.Page.RenderString (dict "display" "block") (.Inner | strings.TrimSpace)) "button" (dict "label" (.Get "label") "url" (.Get "url")) "background" $bg) }}
+</div>

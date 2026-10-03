@@ -1,0 +1,15 @@
+# Theme defaults. Hugo merges [params] (and menus) from a theme's config,
+# but NOT outputs, pagination or markup, so the theme depends on none of them.
+[module]
+  [module.hugoVersion]
+    extended = false
+    min = "0.158.0"
+
+[params]
+  logoWidth = 233
+  joinURL = "https://community.internetsociety.org/s/new-registration"
+  showSearch = true
+  pagerSize = 9
+  dateFormat = ":date_long"
+  defaultBanner = "blue"
+  copyright = "© {year} {chapterName}"

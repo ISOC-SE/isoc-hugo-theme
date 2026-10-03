@@ -1,0 +1,213 @@
+/* Main menu, dropdowns and the language switcher (scss/style/_menu.scss). */
+.menu {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.menu-item {
+  position: relative;
+  margin: 0;
+}
+
+.nav-primary > .menu {
+  display: flex;
+  align-items: center;
+}
+
+.nav-primary > .menu > .menu-item {
+  display: flex;
+  align-items: center;
+  /* 30px at 1440px as in the WP theme; tighter on narrower desktops so longer
+     labels (e.g. Swedish) still fit on one line. */
+  padding: 0 clamp(10px, calc(5.4vw - 48px), 30px);
+}
+
+.nav-primary a {
+  display: block;
+  padding: 8px 0;
+  white-space: nowrap;
+  color: #fff;
+  font-size: 18px;
+  font-weight: 600;
+  line-height: 28px;
+  text-decoration: none;
+}
+
+.nav-primary a:hover,
+.nav-primary a:focus-visible,
+.nav-primary .is-active > a,
+.nav-primary a[aria-current="page"] {
+  color: var(--color-accent);
+}
+
+.submenu-toggle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-left: 4px;
+  padding: 4px;
+  border: 0;
+  background: none;
+  color: #fff;
+  cursor: pointer;
+}
+
+.submenu-toggle .icon {
+  width: 14px;
+  height: 14px;
+  transition: transform 0.2s ease;
+}
+
+.submenu-toggle[aria-expanded="true"] .icon {
+  transform: rotate(180deg);
+}
+
+.menu--sub {
+  position: absolute;
+  top: 100%;
+  left: 14px;
+  z-index: 10;
+  display: none;
+  min-width: 240px;
+  padding: 12px 0;
+  border-radius: var(--radius);
+  background: #fff;
+  box-shadow: var(--shadow-panel);
+}
+
+.submenu-toggle[aria-expanded="true"] + .menu--sub {
+  display: block;
+}
+
+@media (min-width: 1180px) {
+  :root:not(.nav-compact) .menu-item.has-children:not(.is-dismissed):focus-within > .menu--sub {
+    display: block;
+  }
+}
+
+@media (hover: hover) and (min-width: 1180px) {
+  :root:not(.nav-compact) .menu-item.has-children:not(.is-dismissed):hover > .menu--sub {
+    display: block;
+  }
+}
+
+.nav-primary .menu--sub a {
+  padding: 8px 24px;
+  color: var(--isoc-navy);
+  font-size: 17px;
+  font-weight: 400;
+}
+
+.nav-primary .menu--sub a:hover,
+.nav-primary .menu--sub a:focus-visible,
+.nav-primary .menu--sub a[aria-current="page"] {
+  background: var(--color-band-light);
+  color: var(--color-link);
+}
+
+.menu--sub .menu--sub {
+  position: static;
+  display: block;
+  padding: 0 0 0 16px;
+  box-shadow: none;
+}
+
+/* Language switcher */
+.lang-switch {
+  position: relative;
+}
+
+.lang-switch__toggle {
+  display: inline-flex;
+  white-space: nowrap;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 4px;
+  border: 0;
+  background: none;
+  color: #fff;
+  font-size: 18px;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.lang-switch__toggle:hover,
+.lang-switch__toggle[aria-expanded="true"] {
+  color: var(--color-accent);
+}
+
+.lang-switch__toggle .icon--globe {
+  width: 18px;
+  height: 18px;
+}
+
+.lang-switch__toggle .icon--chevron-down {
+  width: 14px;
+  height: 14px;
+}
+
+.lang-switch__menu {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  z-index: 10;
+  display: none;
+  min-width: 160px;
+  margin: 8px 0 0;
+  padding: 8px 0;
+  list-style: none;
+  border-radius: var(--radius);
+  background: #fff;
+  box-shadow: var(--shadow-panel);
+}
+
+.lang-switch__toggle[aria-expanded="true"] + .lang-switch__menu {
+  display: block;
+}
+
+.lang-switch__menu li {
+  margin: 0;
+}
+
+.lang-switch__menu a {
+  display: block;
+  padding: 8px 20px;
+  color: var(--isoc-navy);
+  text-decoration: none;
+}
+
+.lang-switch__menu a[aria-current] {
+  font-weight: 600;
+}
+
+.lang-switch__menu a:hover,
+.lang-switch__menu a:focus-visible {
+  background: var(--color-band-light);
+  color: var(--color-link);
+}
+
+.no-js .lang-switch__toggle {
+  display: none;
+}
+
+.no-js .lang-switch__menu {
+  position: static;
+  display: flex;
+  gap: 4px;
+  margin: 0;
+  padding: 0;
+  background: none;
+  box-shadow: none;
+}
+
+.no-js .lang-switch__menu a {
+  padding: 4px 8px;
+  color: #fff;
+}
+
+@media (max-width: 1179px) {
+  .no-js .menu--sub {
+    display: block;
+  }
+}

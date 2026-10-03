@@ -1,0 +1,22 @@
+{{ define "main" }}
+{{ partial "banner.html" (dict "page" .) }}
+<div class="wrap wrap--960 section archive">
+  {{- if .Content }}
+  <div class="list-intro">{{ partial "page-content.html" . }}</div>
+  {{- end }}
+  {{- $posts := where site.RegularPages "Type" "posts" }}
+  {{- range $posts.GroupByDate "2006" }}
+  <section class="archive__year">
+    <h2>{{ .Key }}</h2>
+    {{- range .Pages.GroupByDate "2006-01" }}
+    <h3 class="archive__month">{{ (index .Pages 0).Date | time.Format "January" | strings.FirstUpper }}</h3>
+    <ul class="archive__list">
+      {{- range .Pages }}
+      <li><time datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date | time.Format ":date_medium" }}</time> <a href="{{ .RelPermalink }}">{{ .LinkTitle }}</a></li>
+      {{- end }}
+    </ul>
+    {{- end }}
+  </section>
+  {{- end }}
+</div>
+{{ end }}

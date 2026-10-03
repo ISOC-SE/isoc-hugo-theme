@@ -1,0 +1,19 @@
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{{ if .IsHome }}{{ site.Title }}{{ else }}{{ .Title }} – {{ site.Title }}{{ end }}</title>
+<meta name="description" content="{{ partial "func/description.html" . }}">
+<link rel="canonical" href="{{ .Permalink }}">
+{{- if .IsTranslated }}
+{{- range .AllTranslations }}
+<link rel="alternate" hreflang="{{ .Language.Locale | default .Language.Name }}" href="{{ .Permalink }}">
+{{- end }}
+{{- end }}
+{{- with .OutputFormats.Get "rss" }}
+<link rel="alternate" type="application/rss+xml" href="{{ .Permalink }}" title="{{ site.Title }}">
+{{- end }}
+<script>document.documentElement.classList.replace("no-js", "js");</script>
+<link rel="preload" href="{{ "fonts/hind/hind-400-latin.woff2" | relURL }}" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="{{ "fonts/hind/hind-700-latin.woff2" | relURL }}" as="font" type="font/woff2" crossorigin>
+{{ partial "head/css.html" . }}
+{{ partial "head/meta.html" . }}
+<link rel="icon" href="{{ "favicon.ico" | relURL }}" sizes="any">

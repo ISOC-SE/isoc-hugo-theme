@@ -1,0 +1,146 @@
+/* Page banners and the homepage hero (WP .inner-page-header, .wp-block-cover, .header-no-video). */
+:root {
+  /* Translucent rounded-bar motif for the CSS-only navy/teal banners. */
+  --pattern-light: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='1440' height='400' viewBox='0 0 1440 400'%3E%3Cg fill='%23fff' fill-opacity='.06'%3E%3Crect x='-120' y='150' width='760' height='120' rx='30' transform='rotate(24 260 210)'/%3E%3Crect x='520' y='-120' width='150' height='560' rx='30' transform='rotate(24 595 160)'/%3E%3Crect x='860' y='40' width='700' height='140' rx='30' transform='rotate(24 1210 110)'/%3E%3Crect x='1180' y='160' width='130' height='420' rx='30' transform='rotate(24 1245 370)'/%3E%3C/g%3E%3C/svg%3E");
+}
+
+.banner {
+  position: relative;
+  display: flex;
+  align-items: center;
+  min-height: 300px;
+  padding: 64px 0;
+  overflow: hidden;
+  background-color: var(--isoc-blue-bg);
+  background-position: center;
+  background-size: cover;
+  color: #fff;
+}
+
+.banner__inner {
+  position: relative;
+  z-index: 1;
+}
+
+.banner__title {
+  margin: 0;
+  color: inherit;
+  font-size: 52px;
+  font-weight: 700;
+  line-height: 1.1;
+}
+
+.banner__lead {
+  max-width: 800px;
+  margin: 24px 0 0;
+  font-size: 25px;
+  line-height: 32px;
+}
+
+.banner__above {
+  margin-bottom: 20px;
+  font-size: 18px;
+}
+
+.banner__meta {
+  margin: 24px 0 0;
+  font-size: 16px;
+  line-height: 24px;
+}
+
+.banner a:not(.btn) {
+  color: inherit;
+}
+
+.banner a:not(.btn):hover,
+.banner a:not(.btn):focus-visible {
+  color: inherit;
+  text-decoration: none;
+}
+
+.banner--blue :focus-visible,
+.banner--navy :focus-visible,
+.banner--teal :focus-visible {
+  outline-color: #fff;
+}
+
+/* Light green pattern under a white overlay (WP .white-overlay), dark blue text. */
+.banner--green {
+  background-color: var(--isoc-neutral-green);
+  color: var(--isoc-depth-blue);
+}
+
+.banner--green::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: rgba(255, 255, 255, 0.45);
+}
+
+.banner--navy {
+  background-color: var(--isoc-navy);
+  background-image: var(--pattern-light);
+}
+
+.banner--teal {
+  background-color: var(--isoc-depth-teal);
+  background-image: var(--pattern-light);
+}
+
+/* banner: none */
+.page-header {
+  padding-top: var(--section-space);
+  color: var(--color-heading);
+}
+
+.page-header + .section {
+  padding-top: 30px;
+}
+
+/* Homepage hero */
+.hero {
+  min-height: 500px;
+  padding: 80px 0;
+}
+
+.hero__title {
+  margin: 0;
+  color: inherit;
+  font-size: 56px;
+  font-weight: 700;
+  line-height: 1.1;
+}
+
+.hero__tagline {
+  max-width: 590px;
+  margin: 30px 0 0;
+  font-size: 25px;
+  line-height: 1.4;
+}
+
+.hero .btn-row {
+  margin-top: 36px;
+}
+
+@media (max-width: 1023px) {
+  .banner__title { font-size: 46px; }
+  .hero__title { font-size: 48px; }
+}
+
+@media (max-width: 767px) {
+  .banner {
+    min-height: 200px;
+    padding: 44px 0;
+  }
+
+  .banner__title { font-size: 36px; }
+  .banner__lead { font-size: 21px; line-height: 1.4; }
+
+  .hero {
+    min-height: 380px;
+    padding: 56px 0;
+  }
+
+  .hero__title { font-size: 40px; }
+  .hero__tagline { font-size: 21px; }
+}

@@ -1,0 +1,3 @@
+{{- with .GetTerms "categories" -}}
+{{- range $i, $t := . }}{{ if $i }} | {{ end }}<a href="{{ $t.RelPermalink }}">{{ $t.LinkTitle }}</a>{{ end -}}
+{{- end -}}

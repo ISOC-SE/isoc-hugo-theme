@@ -1,0 +1,3 @@
+{{- $c := slice (printf "kind-%s" .Kind) (printf "type-%s" .Type) -}}
+{{- if .IsHome }}{{ $c = $c | append "is-home" }}{{ end -}}
+{{- return (delimit $c " ") -}}

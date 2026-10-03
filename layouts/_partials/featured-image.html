@@ -1,0 +1,8 @@
+{{- with .Params.image -}}
+<figure class="featured-image">
+  {{ partial "img.html" (dict "page" $ "src" . "alt" ($.Params.image_alt | default "") "sizes" "(min-width: 1180px) 1180px, 90vw" "eager" true) }}
+  {{- with $.Params.image_credit }}
+  <figcaption class="image-credit">{{ T "imageCopyright" (dict "Credit" .) }}</figcaption>
+  {{- end }}
+</figure>
+{{- end -}}

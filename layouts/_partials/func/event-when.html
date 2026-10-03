@@ -1,0 +1,17 @@
+{{- /* Localised date/time range. Context: dict "page" PAGE "d" (event-dates result). */ -}}
+{{- $d := .d -}}
+{{- $fmt := site.Params.dateFormat | default ":date_long" -}}
+{{- $s := $d.start | time.Format $fmt -}}
+{{- if .page.Params.all_day -}}
+  {{- if not $d.sameDay }}{{ $s = printf "%s – %s" $s ($d.end | time.Format $fmt) }}{{ end -}}
+{{- else -}}
+  {{- $s = printf "%s, %s" $s ($d.start | time.Format ":time_short") -}}
+  {{- if $d.hasEnd -}}
+    {{- if $d.sameDay -}}
+      {{- $s = printf "%s–%s" $s ($d.end | time.Format ":time_short") -}}
+    {{- else -}}
+      {{- $s = printf "%s – %s, %s" $s ($d.end | time.Format $fmt) ($d.end | time.Format ":time_short") -}}
+    {{- end -}}
+  {{- end -}}
+{{- end -}}
+{{- return $s -}}

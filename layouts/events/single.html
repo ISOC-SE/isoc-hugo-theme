@@ -1,0 +1,17 @@
+{{ define "main" }}
+{{- $d := partial "func/event-dates.html" . -}}
+{{- $below := printf `<p class="banner__meta">%s</p>` (partial "func/event-when.html" (dict "page" . "d" $d) | htmlEscape) | safeHTML -}}
+{{ partial "banner.html" (dict "page" . "below" $below) }}
+<div class="wrap wrap--1180 section event">
+  {{- if $d.past }}
+  <p class="notice">{{ T "eventPassed" }}</p>
+  {{- end }}
+  <div class="event__layout">
+    <div class="event__content">
+      {{ partial "featured-image.html" . }}
+      {{ partial "page-content.html" . }}
+    </div>
+    <aside class="event__details">{{ partial "event-details.html" (dict "page" . "d" $d) }}</aside>
+  </div>
+</div>
+{{ end }}

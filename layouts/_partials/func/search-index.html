@@ -1,0 +1,26 @@
+{{- /* Per-language search index, published as /search-index/<lang>.json.
+       Call with partialCached "func/search-index.html" . site.Language.Name */ -}}
+{{- $fmt := site.Params.dateFormat | default ":date_long" -}}
+{{- $items := slice -}}
+{{- range where site.Pages "Kind" "in" (slice "page" "section") -}}
+  {{- if not .Params.search_exclude -}}
+    {{- $date := "" -}}
+    {{- if eq .Type "posts" }}{{ if .IsPage }}{{ $date = .Date | time.Format $fmt }}{{ end }}{{ end -}}
+    {{- if and (eq .Type "events") .Params.start }}{{ $date = time.AsTime .Params.start | time.Format $fmt }}{{ end -}}
+    {{- $tags := slice -}}
+    {{- range .GetTerms "tags" }}{{ $tags = $tags | append .LinkTitle }}{{ end -}}
+    {{- $cats := slice -}}
+    {{- range .GetTerms "categories" }}{{ $cats = $cats | append .LinkTitle }}{{ end -}}
+    {{- $items = $items | append (dict
+        "title" .Title
+        "url" .RelPermalink
+        "section" .Section
+        "date" $date
+        "tags" $tags
+        "categories" $cats
+        "summary" (.Params.lead | default .Summary | plainify | htmlUnescape | strings.TrimSpace | truncate 200)
+        "content" (.Plain | htmlUnescape | strings.TrimSpace | truncate 1500)
+    ) -}}
+  {{- end -}}
+{{- end -}}
+{{- return resources.FromString (printf "search-index/%s.json" site.Language.Name) ($items | jsonify) -}}

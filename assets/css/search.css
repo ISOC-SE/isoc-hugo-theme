@@ -1,0 +1,140 @@
+/* Header search panel (WP .search-block) and the search page. */
+.no-js .search-toggle {
+  display: none;
+}
+
+.search-panel {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  left: 0;
+  max-height: calc(100vh - var(--header-height));
+  padding: 24px 0 28px;
+  overflow-y: auto;
+  background: #fff;
+  color: var(--isoc-navy);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.15);
+}
+
+.search-panel[hidden] {
+  display: none;
+}
+
+.search-panel :focus-visible {
+  outline-color: var(--color-link);
+}
+
+.search-form {
+  display: flex;
+  align-items: center;
+  border-bottom: 2px solid var(--isoc-navy);
+}
+
+.search-form:focus-within {
+  border-bottom-color: var(--color-link);
+}
+
+.search-form__input {
+  flex: 1;
+  min-width: 0;
+  padding: 10px 0 6px;
+  border: 0;
+  background: transparent;
+  font-size: 24px;
+}
+
+.search-form__input:focus {
+  outline: none;
+}
+
+.search-form__submit {
+  padding: 8px;
+  border: 0;
+  background: none;
+  color: var(--isoc-navy);
+  cursor: pointer;
+}
+
+.search-form__submit .icon {
+  width: 24px;
+  height: 24px;
+}
+
+.search-results {
+  margin-top: 16px;
+}
+
+.search-results__count,
+.search-result__meta {
+  color: var(--isoc-gray);
+  font-size: 15px;
+}
+
+.search-results__count {
+  margin: 0 0 8px;
+}
+
+.search-results__list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.search-result {
+  margin: 0;
+  padding: 14px 0;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.search-result__title {
+  color: var(--color-link);
+  font-size: 21px;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.search-result__meta {
+  display: block;
+}
+
+.search-result__summary {
+  margin: 6px 0 0;
+  font-size: 17px;
+  line-height: 1.5;
+}
+
+.search-results__all {
+  display: inline-block;
+  margin-top: 16px;
+  font-weight: 600;
+}
+
+.search-results__empty {
+  margin: 0;
+}
+
+/* Search page */
+.search-form--page {
+  gap: 16px;
+  margin-bottom: 30px;
+  border: 0;
+}
+
+.search-form--page .search-form__input {
+  padding: 10px 24px 8px;
+  border: 1.5px solid var(--isoc-navy);
+  border-radius: var(--radius-pill);
+  font-size: 20px;
+}
+
+.search-form--page .search-form__input:focus {
+  border-color: var(--color-link);
+  outline: 2px solid var(--color-link);
+}
+
+@media (max-width: 599px) {
+  .search-form--page {
+    flex-direction: column;
+    align-items: stretch;
+  }
+}

@@ -1,0 +1,7 @@
+{{- with site.Params.social -}}
+<ul class="social-links">
+  {{- range . }}
+  <li><a href="{{ partial "func/url.html" (dict "url" .url) }}" rel="me noopener">{{ partial "icon.html" (dict "name" .name "set" "social") }}<span class="sr-only">{{ .label | default (title .name) }}</span></a></li>
+  {{- end }}
+</ul>
+{{- end -}}

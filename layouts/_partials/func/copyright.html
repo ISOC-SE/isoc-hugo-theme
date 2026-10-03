@@ -1,0 +1,5 @@
+{{- $name := site.Params.chapterName | default site.Title -}}
+{{- $text := site.Params.copyright | default "© {year} {chapterName}" -}}
+{{- $text = replace $text "{year}" (string now.Year) -}}
+{{- $text = replace $text "{chapterName}" $name -}}
+{{- return ($text | markdownify) -}}

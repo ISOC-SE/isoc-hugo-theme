@@ -1,0 +1,143 @@
+/* News lists, category filter, pagination, related posts, archive. */
+.cards-band {
+  background: var(--color-band-light);
+}
+
+.block__title,
+.band__title {
+  margin: 0 0 30px;
+  color: var(--isoc-blue);
+  font-size: 36px;
+  line-height: 1.53;
+}
+
+.band--navy .block__title,
+.band--blue .block__title {
+  color: #fff;
+}
+
+.category-nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin: 0 0 40px;
+  padding: 0;
+  list-style: none;
+}
+
+.category-nav li {
+  margin: 0;
+}
+
+.category-nav a {
+  display: inline-block;
+  padding: 8px 20px 6px;
+  border: 1.5px solid var(--color-link);
+  border-radius: var(--radius-pill);
+  background: #fff;
+  font-size: 16px;
+  text-decoration: none;
+}
+
+.category-nav a:hover,
+.category-nav a:focus-visible,
+.category-nav a[aria-current="page"] {
+  background: var(--color-link);
+  color: #fff;
+}
+
+.pagination {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  margin-top: 50px;
+}
+
+.pagination__pages {
+  display: flex;
+  gap: 8px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.pagination__pages li {
+  margin: 0;
+}
+
+.pagination a,
+.pagination span[aria-current] {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 44px;
+  height: 44px;
+  padding: 2px 16px 0;
+  border: 1.5px solid var(--color-button);
+  border-radius: var(--radius-pill);
+  background: #fff;
+  color: var(--color-button);
+  text-decoration: none;
+}
+
+.pagination span[aria-current],
+.pagination a:hover,
+.pagination a:focus-visible {
+  background: var(--color-button);
+  color: #fff;
+}
+
+.term-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  columns: 2 260px;
+}
+
+.term-list li {
+  margin: 0 0 8px;
+}
+
+.archive__year + .archive__year {
+  margin-top: 50px;
+}
+
+.archive__month {
+  margin: 30px 0 12px;
+  color: var(--color-heading);
+  font-size: 22px;
+  font-weight: 600;
+}
+
+.archive__list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.archive__list li {
+  display: flex;
+  gap: 16px;
+  margin: 0;
+  padding: 10px 0;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.archive__list time {
+  flex: 0 0 130px;
+  color: var(--isoc-gray);
+  font-size: 16px;
+}
+
+@media (max-width: 599px) {
+  .archive__list li {
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  .archive__list time {
+    flex-basis: auto;
+  }
+}

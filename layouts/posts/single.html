@@ -1,0 +1,10 @@
+{{ define "main" }}
+{{- $above := partial "post-categories.html" . -}}
+{{- $below := partial "post-meta.html" . -}}
+{{ partial "banner.html" (dict "page" . "above" $above "below" $below) }}
+<article class="wrap wrap--1180 section post">
+  {{ partial "featured-image.html" . }}
+  {{ partial "page-content.html" . }}
+</article>
+{{ partial "related-posts.html" . }}
+{{ end }}

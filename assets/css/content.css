@@ -1,0 +1,133 @@
+/* Long-form Markdown content. :where() keeps these rules at element-level
+   specificity so component classes used inside content (shortcodes) win. */
+:where(.entry-content) > :first-child {
+  margin-top: 0;
+}
+
+:where(.entry-content) h2 { margin-top: 50px; }
+:where(.entry-content) h3,
+:where(.entry-content) h4 { margin-top: 40px; }
+
+:where(.entry-content) h2:first-child,
+:where(.entry-content) h3:first-child,
+:where(.entry-content) h4:first-child {
+  margin-top: 0;
+}
+
+:where(.entry-content) ul { list-style: disc; }
+:where(.entry-content) ol { list-style: decimal; }
+
+:where(.entry-content) li > ul,
+:where(.entry-content) li > ol {
+  margin: 0.25em 0 0;
+}
+
+:where(.entry-content) blockquote {
+  margin: 40px 0;
+  padding: 4px 0 4px 30px;
+  border-left: 4px solid var(--color-accent);
+  color: var(--isoc-depth-blue);
+  font-size: 22px;
+  line-height: 1.5;
+}
+
+:where(.entry-content) img {
+  display: block;
+  height: auto;
+}
+
+:where(.entry-content) code {
+  padding: 0.1em 0.35em;
+  border-radius: 3px;
+  background: var(--isoc-light-gray);
+  font-size: 0.9em;
+}
+
+:where(.entry-content) pre {
+  margin: 0 0 30px;
+  padding: 20px;
+  overflow-x: auto;
+  border-radius: var(--radius);
+  background: var(--isoc-navy);
+  color: #fff;
+  font-size: 15px;
+  line-height: 1.6;
+}
+
+:where(.entry-content) pre code {
+  padding: 0;
+  background: none;
+  font-size: inherit;
+}
+
+.toc {
+  margin: 0 0 40px;
+  padding: 24px 30px;
+  border-left: 4px solid var(--color-accent);
+  background: var(--color-band-light);
+}
+
+.toc ul {
+  margin: 0;
+  padding-left: 1.2em;
+  list-style: none;
+}
+
+.toc > ul {
+  padding-left: 0;
+}
+
+.toc li {
+  margin: 0.2em 0;
+}
+
+.toc a {
+  text-decoration: none;
+}
+
+.list-intro {
+  margin-bottom: 40px;
+}
+
+/* Large blue lead text (the template's intro heading: 36px, #2b72d6, weight 400). */
+.lead {
+  color: var(--isoc-blue);
+  font-size: 36px;
+  line-height: 1.53;
+}
+
+.lead p {
+  margin-bottom: 20px;
+}
+
+.lead p:last-child {
+  margin-bottom: 0;
+}
+
+.featured-image {
+  margin: 0 0 40px;
+}
+
+.featured-image img {
+  display: block;
+  width: 100%;
+}
+
+.image-credit {
+  margin-top: 12px;
+  color: var(--isoc-gray);
+  font-size: 14px;
+  line-height: 1.4;
+}
+
+@media (max-width: 767px) {
+  .lead {
+    font-size: 26px;
+    line-height: 1.45;
+  }
+
+  :where(.entry-content) table {
+    display: block;
+    overflow-x: auto;
+  }
+}

@@ -1,0 +1,3 @@
+{{- /* Context: dict "label" "url" ["style" "primary"|"secondary"|"white"]. */ -}}
+<a class="btn{{ with .style }}{{ if ne . "primary" }} btn--{{ . }}{{ end }}{{ end }}" href="{{ partial "func/url.html" (dict "url" .url) }}">{{ .label }}</a>
+{{- /**/ -}}

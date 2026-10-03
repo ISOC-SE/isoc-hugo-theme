@@ -1,0 +1,18 @@
+name = "ISOC Chapters"
+license = "GPL-2.0-or-later"
+licenselink = "https://github.com/ISOC-SE/isoc-hugo-theme/blob/main/LICENSE"
+description = "Hugo port of the Internet Society chapter WordPress theme (Genesis child theme \"Internet Chapters\"), with news, events, search and English/Swedish translations."
+homepage = "https://github.com/ISOC-SE/isoc-hugo-theme"
+demosite = "https://isoc-se.github.io/isoc-hugo-theme/"
+tags = ["multilingual", "blog", "events", "nonprofit", "responsive"]
+features = ["multilingual", "search", "events", "responsive", "no-build-tools"]
+min_version = "0.158.0"
+
+[author]
+  name = "ISOC-SE (Internet Society Swedish Chapter)"
+  homepage = "https://isoc.se"
+
+[original]
+  name = "Internet Chapters (Genesis child theme)"
+  homepage = "https://chapter-template.isoc.org/"
+  repo = "https://github.com/InternetSociety/genesis-child-chapters"

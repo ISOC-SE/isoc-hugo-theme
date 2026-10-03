@@ -1,0 +1,12 @@
+{{- $action := "" -}}
+{{- with site.GetPage "/search" }}{{ $action = .RelPermalink }}{{ end -}}
+<div class="search-panel" id="search-panel" hidden>
+  <div class="wrap wrap--960">
+    <form class="search-form" role="search" method="get"{{ with $action }} action="{{ . }}"{{ end }}>
+      <label class="sr-only" for="search-panel-input">{{ T "searchSite" }}</label>
+      <input class="search-form__input" id="search-panel-input" type="search" name="q" placeholder="{{ T "searchPlaceholder" }}" autocomplete="off" data-search-input>
+      <button class="search-form__submit" type="submit">{{ partial "icon.html" (dict "name" "search") }}<span class="sr-only">{{ T "search" }}</span></button>
+    </form>
+    <div class="search-results" data-search-results aria-live="polite"></div>
+  </div>
+</div>

@@ -1,0 +1,9 @@
+{{- /* Returns a plain-text meta description for a page. */ -}}
+{{- $d := .Description -}}
+{{- if and (not $d) .IsPage -}}
+  {{- $d = .Summary | plainify | htmlUnescape | strings.TrimSpace | truncate 160 -}}
+{{- end -}}
+{{- if not $d -}}
+  {{- $d = .Params.lead | default site.Params.description -}}
+{{- end -}}
+{{- return ($d | plainify | htmlUnescape | strings.TrimSpace) -}}

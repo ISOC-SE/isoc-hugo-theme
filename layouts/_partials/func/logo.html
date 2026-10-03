@@ -1,0 +1,22 @@
+{{- /* Header logo. Returns dict "src" "width" "height" (height 0 when unknown). */ -}}
+{{- $width := int (site.Params.logoWidth | default 233) -}}
+{{- $src := "" -}}
+{{- $height := 0 -}}
+{{- $res := "" -}}
+{{- with site.Params.logo -}}
+  {{- with resources.Get (strings.TrimPrefix "/" .) -}}
+    {{- $res = . -}}
+  {{- else -}}
+    {{- $src = strings.TrimPrefix "/" . | relURL -}}
+  {{- end -}}
+{{- else -}}
+  {{- $res = resources.Get "images/logo-isoc-chapters.svg" -}}
+  {{- $height = int (math.Round (div (mul 47.0 $width) 233.0)) -}}
+{{- end -}}
+{{- with $res -}}
+  {{- $src = .RelPermalink -}}
+  {{- if in (slice "jpeg" "png" "webp" "gif") .MediaType.SubType -}}
+    {{- $height = int (math.Round (div (mul (float .Height) $width) .Width)) -}}
+  {{- end -}}
+{{- end -}}
+{{- return dict "src" $src "width" $width "height" $height -}}

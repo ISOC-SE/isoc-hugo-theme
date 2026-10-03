@@ -1,0 +1,6 @@
+{{- /* Images from this page bundle; optional match="glob" narrows them. alt/caption come from resource params. */ -}}
+{{- $imgs := .Page.Resources.ByType "image" -}}
+{{- with .Get "match" }}{{ $imgs = $.Page.Resources.Match . }}{{ end -}}
+{{- $items := slice -}}
+{{- range $imgs }}{{ $items = $items | append (dict "res" . "alt" (.Params.alt | default "") "caption" (.Params.caption | default "")) }}{{ end -}}
+{{- partial "gallery.html" (dict "page" .Page "images" $items) -}}

@@ -1,0 +1,14 @@
+{{- $b := .block -}}
+{{- $variant := partial "func/banner-variant.html" (dict "page" .page "value" $b.banner "fallback" "green") -}}
+{{- $img := partial "func/banner-image.html" (dict "page" .page "variant" $variant "src" $b.image "hero" true) -}}
+<section class="hero banner banner--{{ $variant }}"{{ with $img }} style="{{ printf "background-image:url('%s')" .RelPermalink | safeCSS }}"{{ end }}>
+  <div class="wrap wrap--1180 banner__inner">
+    <h1 class="hero__title">{{ $b.title | default site.Title }}</h1>
+    {{- with $b.tagline }}
+    <p class="hero__tagline">{{ . | markdownify }}</p>
+    {{- end }}
+    {{- with $b.buttons }}
+    <div class="btn-row">{{ range . }}{{ partial "button.html" . }}{{ end }}</div>
+    {{- end }}
+  </div>
+</section>

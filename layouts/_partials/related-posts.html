@@ -1,0 +1,15 @@
+{{- /* Up to four related posts; topped up with the newest other posts. */ -}}
+{{- $posts := where site.RegularPages "Type" "posts" -}}
+{{- $related := where (site.RegularPages.Related .) "Type" "posts" -}}
+{{- $others := complement (slice .) $related $posts -}}
+{{- $list := first 4 ($related | append $others) -}}
+{{- with $list -}}
+<section class="related band band--light" aria-labelledby="related-title">
+  <div class="wrap wrap--1180">
+    <h2 class="band__title" id="related-title">{{ T "relatedPosts" }}</h2>
+    <div class="card-grid card-grid--4">
+      {{- range . }}{{ partial "card.html" . }}{{ end }}
+    </div>
+  </div>
+</section>
+{{- end -}}

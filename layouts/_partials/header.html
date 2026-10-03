@@ -1,0 +1,29 @@
+{{- $logo := partial "func/logo.html" . -}}
+<header class="site-header" data-header>
+  <div class="wrap site-header__inner">
+    <a class="site-logo" href="{{ site.Home.RelPermalink }}" rel="home" style="max-width: {{ $logo.width }}px">
+      <img src="{{ $logo.src }}" alt="{{ site.Params.logoAlt | default site.Title }}" width="{{ $logo.width }}"{{ with $logo.height }} height="{{ . }}"{{ end }}>
+    </a>
+    <div class="site-nav" id="site-nav" data-site-nav>
+      {{- with site.Menus.main }}
+      <nav class="nav-primary" aria-label="{{ T "mainMenu" }}">
+        {{ partial "nav-menu.html" (dict "page" $ "entries" .) }}
+      </nav>
+      {{- end }}
+      {{ partial "lang-switch.html" . }}
+      {{- with site.Params.joinURL }}
+      <a class="btn btn--white btn--join" href="{{ . }}">{{ site.Params.joinLabel | default (T "join") }}</a>
+      {{- end }}
+    </div>
+    {{- if site.Params.showSearch }}
+    {{ partial "search-toggle.html" . }}
+    {{- end }}
+    <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="site-nav" data-menu-toggle>
+      <span class="menu-toggle__bars" aria-hidden="true"><span></span><span></span><span></span></span>
+      <span class="sr-only" data-label-open="{{ T "openMenu" }}" data-label-close="{{ T "closeMenu" }}">{{ T "openMenu" }}</span>
+    </button>
+  </div>
+  {{- if site.Params.showSearch }}
+  {{ partial "search-panel.html" . }}
+  {{- end }}
+</header>

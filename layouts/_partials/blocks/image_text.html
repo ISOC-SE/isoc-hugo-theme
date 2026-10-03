@@ -1,0 +1,8 @@
+{{- $b := .block -}}
+{{- $text := "" -}}
+{{- with $b.text }}{{ $text = $.page.RenderString (dict "display" "block") . }}{{ end -}}
+<section class="block block-image-text{{ with $b.background }} band band--{{ . }}{{ end }}">
+  <div class="wrap wrap--1180 reveal">
+    {{ partial "image-text.html" (dict "page" .page "src" $b.image "alt" $b.image_alt "side" $b.image_side "ratio" $b.ratio "content" $text "buttons" $b.buttons) }}
+  </div>
+</section>
