@@ -17,7 +17,8 @@ Maintained by [ISOC-SE](https://isoc.se), the Swedish chapter. Other chapters ar
 - Search in the browser (Fuse.js) over an index built with the site.
 - English and Swedish built in; any number of languages with a language switcher.
 - Nothing to install but Hugo. No Node, npm, Sass or CDN; fonts and scripts are self-hosted.
-- Works without JavaScript (except search), keyboard friendly, WCAG 2.1 AA target.
+- Works without JavaScript (except search), keyboard friendly, WCAG 2.2 AA target
+  (the level the Internet Society aims for).
 
 Not included, because a static site can't do it: contact/membership forms,
 comments, newsletter sign-up. Link to external services for those, for example
@@ -89,9 +90,10 @@ titleCaseStyle = "firstupper"   # generated titles (category pages) in sentence 
     label = "LinkedIn"
 ```
 
-**Logo.** Use your official chapter logo from the
-[ISOC brand guidelines](https://assets.internetsociety.org/guidelines/) (white
-version, for the navy header). The bundled "Internet Society Chapters" logo is
+**Logo.** ISOC asks chapters to use the official chapter branding. Download your
+chapter logo from the
+[ISOC Digital Asset Manager](https://assets.internetsociety.org/guidelines/guide/84cb806a-1844-46a2-aa00-1459bd1f0e70/page/99bbdc24-9e64-493a-8125-bd8459f16d7c)
+(login required; white version, for the navy header). The bundled "Internet Society Chapters" logo is
 only a placeholder.
 
 ### Languages
@@ -171,9 +173,12 @@ lead: One sentence shown under the title in the banner.
 banner: green          # green | blue | navy | teal | none
 banner_image: hero.jpg # optional: your own banner background
 toc: true              # optional table of contents
-description: Meta description (defaults to the summary).
+description: Meta description (defaults to the summary; aim for 120–158 characters).
 ---
 ```
+
+The page title is the page's only `<h1>`, so start headings in Markdown at
+`##` and don't skip levels (ISOC's accessibility and SEO advice).
 
 Links in Markdown may use content paths, `[contact us](/contact)`. They are
 turned into the right URL for the page's language.
