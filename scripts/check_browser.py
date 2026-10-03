@@ -99,6 +99,18 @@ DEMO_BODY = """
     }
   }
 
+  // Header controls are at least 24x24 CSS px (WCAG 2.2 target size, 2.5.8).
+  var tf = await frame('/', 1440), tw = tf.contentWindow;
+  var small = [];
+  tf.contentDocument.querySelectorAll('.site-header a, .site-header button').forEach(function (el) {
+    var r = rect(el);
+    if (visible(tw, el) && (r.width < 24 || r.height < 24)) {
+      small.push((el.className || el.tagName) + ' ' + Math.round(r.width) + 'x' + Math.round(r.height));
+    }
+  });
+  ok('header controls are at least 24x24px at 1440px', small.length === 0, small.join('; '));
+  tf.remove();
+
   // Desktop dropdown opened by keyboard focus can be dismissed with Escape (WCAG 1.4.13).
   var f = await frame('/', 1440), w = f.contentWindow, d = w.document;
   var item = d.querySelector('.nav-primary .menu-item.has-children');
