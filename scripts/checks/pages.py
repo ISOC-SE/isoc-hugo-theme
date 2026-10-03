@@ -93,3 +93,14 @@ def pages_edge_subpath_urls(ctx):
     img = plain.find(".entry-content img").attrs["src"]
     expect(img == "/sub/images/photo.jpg", f"static content image src {img}")
     expect(plain.find(".entry-content a[href=/sub/files/x.pdf]") is not None, "static file link in Markdown")
+
+
+@check
+def pages_edge_invalid_urls(ctx):
+    # An invalid URL in content is logged and must not stop the build. The link
+    # is still rendered; Go's escaping turns its href into "#ZgotmplZ".
+    body = ctx.edge.html("/bad-urls/").find(".entry-content")
+    link = body and body.find("a")
+    expect(link is not None and link.text() == "opening hours", "the page with invalid URLs should still render its link")
+    for value in ('"09:00-17:00" is not a valid URL', '"1a:b" is not a valid URL'):
+        expect(value in ctx.edge.log, f"edge log should warn: {value}")
