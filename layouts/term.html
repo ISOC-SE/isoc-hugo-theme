@@ -6,7 +6,7 @@
     {{- $pag := .Paginate .Pages (site.Params.pagerSize | default 9) }}
     <div class="card-grid">
       {{- range $pag.Pages }}
-      {{- if eq .Type "events" }}{{ partial "card-event.html" . }}{{ else }}{{ partial "card.html" . }}{{ end }}
+      {{- if eq .Type "events" }}{{ partial "card-event.html" (dict "page" . "level" 2) }}{{ else }}{{ partial "card.html" (dict "page" . "level" 2) }}{{ end }}
       {{- end }}
     </div>
     {{ partial "pagination.html" $pag }}

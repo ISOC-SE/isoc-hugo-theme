@@ -1,9 +1,14 @@
-{{- /* Card for a post or page (WP .latest-blog-post). Context: PAGE. */ -}}
-{{- $isPost := eq .Type "posts" -}}
-{{- $summary := .Params.lead | default .Summary | plainify | htmlUnescape | strings.TrimSpace -}}
+{{- /* Card for a post or page (WP .latest-blog-post).
+       Context: PAGE, or dict "page" PAGE "level" N (title heading level, default 3;
+       list pages pass 2 so headings don't skip a level after the banner's h1). */ -}}
+{{- $p := . -}}
+{{- $level := 3 -}}
+{{- if reflect.IsMap . }}{{ $p = .page }}{{ $level = .level | default 3 }}{{ end -}}
+{{- $isPost := eq $p.Type "posts" -}}
+{{- $summary := $p.Params.lead | default $p.Summary | plainify | htmlUnescape | strings.TrimSpace -}}
 <article class="card">
-  {{- with .Params.image }}
-  {{- with partial "func/resource.html" (dict "page" $ "src" .) }}
+  {{- with $p.Params.image }}
+  {{- with partial "func/resource.html" (dict "page" $p "src" .) }}
   {{- if in (slice "jpeg" "png" "webp") .MediaType.SubType }}
   <div class="card__image">{{ partial "img.html" (dict "res" (.Fill "640x360 Center") "sizes" "(min-width: 1180px) 300px, (min-width: 600px) 45vw, 90vw") }}</div>
   {{- end }}
@@ -11,14 +16,14 @@
   {{- end }}
   <div class="card__body">
     {{- if $isPost }}
-    <p class="card__date"><time datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date | time.Format site.Params.dateFormat }}</time></p>
+    <p class="card__date"><time datetime="{{ $p.Date.Format "2006-01-02" }}">{{ $p.Date | time.Format site.Params.dateFormat }}</time></p>
     {{- end }}
-    <h3 class="card__title"><a href="{{ .RelPermalink }}">{{ .LinkTitle }}</a></h3>
+    <h{{ $level }} class="card__title"><a href="{{ $p.RelPermalink }}">{{ $p.LinkTitle }}</a></h{{ $level }}>
     {{- with $summary }}
     <p class="card__summary">{{ . | truncate 140 }}</p>
     {{- end }}
     {{- if $isPost }}
-    {{- with .GetTerms "categories" }}
+    {{- with $p.GetTerms "categories" }}
     <ul class="card__tags">{{ range . }}<li>{{ .LinkTitle }}</li>{{ end }}</ul>
     {{- end }}
     {{- end }}

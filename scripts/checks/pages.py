@@ -104,3 +104,23 @@ def pages_edge_invalid_urls(ctx):
     expect(link is not None and link.text() == "opening hours", "the page with invalid URLs should still render its link")
     for value in ('"09:00-17:00" is not a valid URL', '"1a:b" is not a valid URL'):
         expect(value in ctx.edge.log, f"edge log should warn: {value}")
+
+
+@check
+def pages_heading_levels(ctx):
+    # One h1 per page and no skipped levels (ISOC chapter-template guidance, WCAG 1.3.1).
+    for name, site in (("exampleSite", ctx.main), ("edge", ctx.edge)):
+        problems = []
+        for rel in site.html_files():
+            if os.path.basename(rel).startswith("_"):
+                continue  # harness pages written by the browser checks
+            root = site.html(rel)
+            if root.find("meta[http-equiv=refresh]"):
+                continue  # alias redirects
+            levels = [int(el.tag[1]) for el in root.descendants() if re.fullmatch(r"h[1-6]", el.tag)]
+            if levels.count(1) != 1:
+                problems.append(f"{rel}: {levels.count(1)} h1")
+            skips = [f"h{a}->h{b}" for a, b in zip(levels, levels[1:]) if b > a + 1]
+            if skips:
+                problems.append(f"{rel}: {', '.join(skips)}")
+        expect(not problems, f"{name} heading problems:\n  " + "\n  ".join(problems[:30]))

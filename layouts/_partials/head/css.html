@@ -21,7 +21,14 @@
 {{- $vars := slice -}}
 {{- range $key := slice "link" "accent" "header" "footer" "button" -}}
   {{- with index $colors $key -}}
-    {{- $vars = $vars | append (printf "--color-%s:%s" $key .) -}}
+    {{- /* Only plain colour values (#hex, rgb()/hsl(), or a name): the value is
+           written into a <style> element, so anything else could break out of it. */ -}}
+    {{- $v := strings.TrimSpace (string .) -}}
+    {{- if findRE `^(#[0-9a-fA-F]{3,8}|(rgb|rgba|hsl|hsla)\([0-9.,%\s/]+\)|[a-zA-Z]+)$` $v -}}
+      {{- $vars = $vars | append (printf "--color-%s:%s" $key $v) -}}
+    {{- else -}}
+      {{- warnf "params.colors.%s = %q is not a colour value (use e.g. \"#2b72d6\"); ignored" $key $v -}}
+    {{- end -}}
   {{- end -}}
 {{- end -}}
 {{- with $vars }}

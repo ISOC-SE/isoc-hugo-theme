@@ -17,3 +17,4 @@ timeZone = "Europe/Stockholm"
   showSearch = false
   [params.colors]
     link = "#7e245c"
+    accent = "red}</style><script>alert(1)</script><style>"   # must be rejected with a warning
