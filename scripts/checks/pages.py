@@ -147,5 +147,8 @@ def pages_provenance(ctx):
     expect(ctx.edge.html("/provenance/").find("aside.provenance") is None, "unknown kind shows no notice")
     expect('provenance/: provenance.kind "copied" is not imported, generated or mixed' in ctx.edge.log,
            "edge log should warn about the unknown kind")
+    new = ctx.edge.html("/provenance-new/").find("aside.provenance")
+    expect(new is not None and "originalet" not in new.text() and new.text().startswith("Genererad text."),
+           f"generated text without a source has no original to defer to: {new and new.text()!r}")
     mixed = ctx.edge.html("/provenance-mixed/").find("aside.provenance")
     expect(mixed is not None and mixed.find("a") is None and "/old-path/" in mixed.text(), "relative source as text")

@@ -200,7 +200,9 @@ provenance:
   note: Personal e-mail addresses are left out.   # optional, Markdown
 ```
 
-A notice above the text says which kind it is and links to the source. An
+A notice above the text says which kind it is and links to the source. A
+`generated` text without a `source` is treated as new text, so the notice does
+not refer to an original. An
 unknown `kind` logs a warning and shows no notice. To change the wording,
 override the `provenance*` keys in your site's i18n file.
 
