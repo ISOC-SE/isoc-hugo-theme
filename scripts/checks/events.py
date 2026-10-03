@@ -3,7 +3,8 @@ from checklib import check, expect, ics_events, split_events
 
 def _ics(site, rel):
     raw = site.read(rel)
-    expect("\n" not in raw.replace("\r\n", ""), f"{rel}: lines must end with CRLF")
+    expect("\n" not in raw.replace("\r\n", "") and "\r" not in raw.replace("\r\n", ""),
+           f"{rel}: lines must end with CRLF and contain no other line breaks")
     lines = raw.split("\r\n")
     expect(lines[0] == "BEGIN:VCALENDAR" and lines[-2] == "END:VCALENDAR" and lines[-1] == "",
            f"{rel}: not a complete VCALENDAR")
@@ -107,6 +108,9 @@ def events_edge_timezones_and_all_day(ctx):
     no_end = _ics(ctx.edge, "events/no-end/event.ics")
     expect("DTSTART:20990701T080000Z" in no_end and "DTEND:20990701T090000Z" in no_end,
            "events without end default to one hour")
+    expect("LOCATION:Room 1\\nORGANIZER:mailto:x@example.com" in no_end
+           and not any(l.startswith("ORGANIZER") for l in no_end),
+           "a carriage return in a text value must be escaped, not start a new property")
     link = ctx.edge.html("/events/no-offset/").find("a[download]")
     expect(link.attrs["href"] == "/sub/events/no-offset/event.ics", f"ics link must include base path, got {link.attrs['href']}")
     titles = _group_titles(ctx.edge.html("/events/"), "upcoming")

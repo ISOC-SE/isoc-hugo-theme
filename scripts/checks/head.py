@@ -78,5 +78,9 @@ def head_skip_link_and_main_landmark(ctx):
 def head_color_overrides(ctx):
     edge_styles = " ".join(s.text() for s in ctx.edge.html("/").select("style"))
     expect("--color-link:#7e245c" in edge_styles.replace(" ", ""), f"edge colour override missing: {edge_styles!r}")
+    expect("<script>alert" not in ctx.edge.read("/") and "--color-accent" not in edge_styles,
+           "an invalid colour value must not be written into the page")
+    expect("params.colors.accent" in ctx.edge.log and "is not a colour value" in ctx.edge.log,
+           "an invalid colour value must log a warning")
     main_styles = " ".join(s.text() for s in ctx.main.html("/").select("style"))
     expect("--color-link" not in main_styles, "exampleSite sets no colours, so no override style expected")
