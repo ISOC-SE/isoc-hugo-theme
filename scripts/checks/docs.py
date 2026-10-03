@@ -1,3 +1,5 @@
+import base64
+import hashlib
 import os
 import re
 
@@ -37,3 +39,31 @@ def docs_i18n_files_have_same_keys(ctx):
     en = set(re.findall(r"^(\w+) = ", _read("i18n/en.toml"), re.M))
     sv = set(re.findall(r"^(\w+) = ", _read("i18n/sv.toml"), re.M))
     expect(en == sv, f"i18n key mismatch: only en {sorted(en - sv)}, only sv {sorted(sv - en)}")
+
+
+@check
+def docs_font_checksums(ctx):
+    # static/fonts/hind/SHA256SUMS (written by scripts/fetch-fonts.py) must match the committed fonts.
+    font_dir = os.path.join(ROOT, "static", "fonts", "hind")
+    listed = {}
+    for line in _read("static/fonts/hind/SHA256SUMS").splitlines():
+        digest, _, name = line.partition("  ")
+        listed[name] = digest
+    present = sorted(n for n in os.listdir(font_dir) if n.endswith(".woff2"))
+    expect(sorted(listed) == present, f"SHA256SUMS lists {sorted(listed)}, directory has {present}")
+    for name in present:
+        with open(os.path.join(font_dir, name), "rb") as fh:
+            digest = hashlib.sha256(fh.read()).hexdigest()
+        expect(digest == listed[name], f"{name} does not match SHA256SUMS")
+
+
+@check
+def docs_csp_hash_matches_inline_script(ctx):
+    # The CSP in README allows the inline script by hash; keep the two in sync.
+    scripts = [s.text() for s in ctx.main.html("/").select("head script") if "src" not in s.attrs
+               and s.attrs.get("type") != "application/json"]
+    expect(len(scripts) == 1, f"expected one inline script in <head>, found {len(scripts)}")
+    raw = re.search(r"<head>.*?<script>(.*?)</script>", ctx.main.read("/"), re.S).group(1)
+    digest = "sha256-" + base64.b64encode(hashlib.sha256(raw.encode()).digest()).decode()
+    expect(digest in _read("README.md"), f"README CSP must allow the inline script with '{digest}'")
+    expect(os.path.isfile(os.path.join(ROOT, "SECURITY.md")), "SECURITY.md missing")

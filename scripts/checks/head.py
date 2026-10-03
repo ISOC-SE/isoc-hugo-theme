@@ -84,3 +84,20 @@ def head_color_overrides(ctx):
            "an invalid colour value must log a warning")
     main_styles = " ".join(s.text() for s in ctx.main.html("/").select("style"))
     expect("--color-link" not in main_styles, "exampleSite sets no colours, so no override style expected")
+
+
+@check
+def head_referrer_policy_and_noopener(ctx):
+    head = ctx.main.html("/").find("head")
+    expect(head.find("meta[name=referrer][content=strict-origin-when-cross-origin]") is not None,
+           "referrer policy meta missing")
+    missing = []
+    for rel in ctx.main.html_files():
+        if os.path.basename(rel).startswith("_"):
+            continue
+        for a in ctx.main.html(rel).select("a[href]"):
+            href = a.attrs["href"]
+            if href.startswith(("http://", "https://", "//")) and "//example.org/" not in href \
+                    and "noopener" not in a.attrs.get("rel", "").split():
+                missing.append(f"{rel}: {href}")
+    expect(not missing, "external links without rel=noopener:\n  " + "\n  ".join(missing[:20]))

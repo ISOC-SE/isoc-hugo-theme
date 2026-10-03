@@ -1,0 +1,6 @@
+{{- /* rel value for a link built from front matter or config: "noopener" for
+       absolute http(s) URLs, "" otherwise. Context: URL STRING.
+       The theme never opens links in a new tab, so this is defence in depth
+       (and consistent with Markdown links, see _markup/render-link.html). */ -}}
+{{- $u := lower (string .) -}}
+{{- return cond (or (hasPrefix $u "http://") (hasPrefix $u "https://") (hasPrefix $u "//")) "noopener" "" -}}

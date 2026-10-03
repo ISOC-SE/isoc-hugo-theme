@@ -13,7 +13,7 @@
     {{- end }}
     {{ partial "latest-posts-grid.html" (dict "count" ($b.count | default 4) "section" $b.section "level" (cond (isset $b "title") 3 2)) }}
     {{- with $more }}
-    <p class="block__more"><a class="btn" href="{{ . }}">{{ $b.more_label | default (T "moreNews") }}</a></p>
+    <p class="block__more"><a class="btn" href="{{ . }}"{{ with partial "func/rel.html" . }} rel="{{ . }}"{{ end }}>{{ $b.more_label | default (T "moreNews") }}</a></p>
     {{- end }}
   </div>
 </section>
