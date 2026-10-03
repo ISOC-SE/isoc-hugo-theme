@@ -6,3 +6,9 @@ updates:
     directory: /
     schedule:
       interval: weekly
+    # One PR for all action updates instead of one per action. The Pages
+    # actions (configure/upload/deploy) only run on main, so they are best
+    # updated and verified together.
+    groups:
+      github-actions:
+        patterns: ["*"]
