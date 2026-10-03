@@ -3,7 +3,7 @@
 {{- $d := partial "func/event-dates.html" $p -}}
 {{- $utc := "20060102T150405Z" -}}
 {{- $host := (urls.Parse site.BaseURL).Host -}}
-{{- $lines := slice "BEGIN:VCALENDAR" "VERSION:2.0" (printf "PRODID:-//%s//ISOC Chapters Hugo theme//%s" site.Title (upper site.Language.Name)) "CALSCALE:GREGORIAN" "METHOD:PUBLISH" "BEGIN:VEVENT" -}}
+{{- $lines := slice "BEGIN:VCALENDAR" "VERSION:2.0" (printf "PRODID:-//%s//ISOC Chapters Hugo theme//%s" (partial "func/ics-escape.html" site.Title) (upper site.Language.Name)) "CALSCALE:GREGORIAN" "METHOD:PUBLISH" "BEGIN:VEVENT" -}}
 {{- $lines = $lines | append (printf "UID:%s@%s" (md5 $p.Permalink) $host) -}}
 {{- $lines = $lines | append (printf "DTSTAMP:%s" ($p.Lastmod.UTC.Format $utc)) -}}
 {{- if $p.Params.all_day -}}
@@ -19,7 +19,7 @@
 {{- with $p.Params.location -}}
   {{- $lines = $lines | append (printf "LOCATION:%s" (partial "func/ics-escape.html" .)) -}}
 {{- else -}}
-  {{- if $p.Params.online }}{{ $lines = $lines | append (printf "LOCATION:%s" (T "online")) }}{{ end -}}
+  {{- if $p.Params.online }}{{ $lines = $lines | append (printf "LOCATION:%s" (partial "func/ics-escape.html" (T "online"))) }}{{ end -}}
 {{- end -}}
 {{- $lines = $lines | append (printf "URL:%s" $p.Permalink) -}}
 {{- with $p.Summary | plainify | htmlUnescape | strings.TrimSpace -}}

@@ -77,7 +77,7 @@ titleCaseStyle = "firstupper"   # generated titles (category pages) in sentence 
   copyright     = "© {year} {chapterName}"
   ogImage       = ""            # default social sharing image (path in assets/)
 
-  [params.colors]               # optional overrides of the ISOC defaults
+  [params.colors]               # optional overrides: #hex, rgb()/hsl() or a colour name
     link   = "#2b72d6"
     accent = "#40b2a4"
     header = "#0c1c2c"
