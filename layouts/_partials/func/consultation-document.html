@@ -1,0 +1,23 @@
+{{- /* Link to the response document of a consultation response post.
+       Context: PAGE. consultation.document is a page resource (page bundle),
+       an assets/ path, a content or static path, or an absolute URL.
+       Returns the href, or "" when there is none (a missing file is logged). */ -}}
+{{- $href := "" -}}
+{{- with .Params.consultation -}}
+  {{- with .document -}}
+    {{- $src := string . -}}
+    {{- $u := partial "func/parse-url.html" (dict "url" $src "page" $) -}}
+    {{- $r := "" -}}
+    {{- if and $u (not $u.IsAbs) }}{{ $r = partial "func/resource.html" (dict "page" $ "src" $src) }}{{ end -}}
+    {{- if and $u $u.IsAbs -}}
+      {{- $href = $src -}}
+    {{- else if $r -}}
+      {{- $href = $r.RelPermalink -}}
+    {{- else if hasPrefix $src "/" -}}
+      {{- $href = partial "func/url.html" (dict "url" $src) -}}
+    {{- else -}}
+      {{- warnf "%s: consultation.document %q not found (put it next to index.md or in assets/)" $.RelPermalink $src -}}
+    {{- end -}}
+  {{- end -}}
+{{- end -}}
+{{- return $href -}}

@@ -141,3 +141,59 @@
     flex-basis: auto;
   }
 }
+
+/* Consultation responses: facts box on the post and the overview table. */
+.consultation-details {
+  margin: 40px 0 0;
+  padding: 24px 28px;
+  border-left: 4px solid var(--isoc-depth-blue);
+  background: var(--color-band-light);
+}
+
+.consultation-details__title {
+  margin: 0 0 12px;
+  font-size: 24px;
+  line-height: 1.4;
+}
+
+.consultation-details dl {
+  display: grid;
+  grid-template-columns: max-content minmax(0, 1fr);
+  gap: 6px 20px;
+  margin: 0;
+}
+
+.consultation-details dt {
+  font-weight: 600;
+}
+
+.consultation-details dd {
+  margin: 0;
+  overflow-wrap: anywhere;
+}
+
+.consultation-details__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 20px;
+}
+
+.consultations__year,
+.consultations__reference {
+  white-space: nowrap;
+}
+
+@media (max-width: 767px) {
+  .consultation-details {
+    padding: 20px;
+  }
+
+  .consultation-details dl {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .consultation-details dd + dt {
+    margin-top: 8px;
+  }
+}

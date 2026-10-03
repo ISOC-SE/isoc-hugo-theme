@@ -1,0 +1,35 @@
+{{- /* Table of every consultation response (posts with consultation in front
+       matter) in the current language. Params: order="desc" (default, newest
+       first) or "asc"; empty="text when there are none". */ -}}
+{{- $pages := where site.RegularPages "Params.consultation" "!=" nil -}}
+{{- $order := .Get "order" | default "desc" -}}
+{{- if not (in (slice "asc" "desc") $order) -}}
+  {{- warnf "%s: consultations order=%q is not asc or desc; using desc" .Page.RelPermalink $order -}}
+  {{- $order = "desc" -}}
+{{- end -}}
+{{- $pages = cond (eq $order "asc") $pages.ByDate $pages.ByDate.Reverse -}}
+{{- if $pages }}
+<table class="consultations">
+  <thead>
+    <tr>
+      <th scope="col">{{ T "consultationYear" }}</th>
+      <th scope="col">{{ T "consultationTopic" }}</th>
+      <th scope="col">{{ T "consultationRecipient" }}</th>
+      <th scope="col">{{ T "consultationReference" }}</th>
+    </tr>
+  </thead>
+  <tbody>
+    {{- range $pages }}
+    {{- $c := .Params.consultation }}
+    <tr>
+      <td class="consultations__year"><time datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date.Year }}</time></td>
+      <td><a href="{{ .RelPermalink }}">{{ $c.topic | default .LinkTitle }}</a></td>
+      <td>{{ $c.recipient }}</td>
+      <td class="consultations__reference">{{ $c.reference }}</td>
+    </tr>
+    {{- end }}
+  </tbody>
+</table>
+{{- else }}
+<p>{{ .Get "empty" | default (T "noConsultations") }}</p>
+{{- end -}}
