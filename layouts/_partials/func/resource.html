@@ -2,7 +2,9 @@
        Context: dict "page" PAGE (may be nil) "src" STRING. Returns a resource or "". */ -}}
 {{- $r := "" -}}
 {{- $src := .src -}}
-{{- if and $src (not (urls.Parse $src).IsAbs) -}}
+{{- $u := "" -}}
+{{- with $src }}{{ $u = partial "func/parse-url.html" (dict "url" . "page" $.page) }}{{ end -}}
+{{- if and $u (not $u.IsAbs) -}}
   {{- with .page -}}
     {{- with .Resources.Get $src }}{{ $r = . }}{{ end -}}
   {{- end -}}

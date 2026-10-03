@@ -1,0 +1,16 @@
+{{- /* urls.Parse that never stops the build.
+       Context: dict "url" STRING ["page" PAGE, named in the warning].
+       Returns the parsed URL, or "" (after a warning) when the string is not a
+       valid URL, e.g. "[time](09:00-17:00)" in Markdown. Callers then output the
+       value as it is; Go's HTML escaping neutralises it in href/src. */ -}}
+{{- $u := "" -}}
+{{- with try (urls.Parse .url) -}}
+  {{- with .Err -}}
+    {{- $from := "site configuration" -}}
+    {{- with $.page }}{{ $from = .RelPermalink }}{{ end -}}
+    {{- warnf "%s: %q is not a valid URL (%s)" $from $.url . -}}
+  {{- else -}}
+    {{- $u = .Value -}}
+  {{- end -}}
+{{- end -}}
+{{- return $u -}}

@@ -6,14 +6,17 @@
        - Absolute URLs pass through unchanged. */ -}}
 {{- $u := .url | default "" -}}
 {{- if and (hasPrefix $u "/") (not (hasPrefix $u "//")) -}}
-  {{- $p := urls.Parse $u -}}
-  {{- $suffix := "" -}}
-  {{- with $p.RawQuery }}{{ $suffix = printf "?%s" . }}{{ end -}}
-  {{- with $p.Fragment }}{{ $suffix = printf "%s#%s" $suffix . }}{{ end -}}
-  {{- with site.GetPage (strings.TrimSuffix "/" $p.Path | default "/") -}}
-    {{- $u = printf "%s%s" .RelPermalink $suffix -}}
-  {{- else -}}
-    {{- $u = printf "%s%s" (strings.TrimPrefix "/" $p.Path | relURL) $suffix -}}
+  {{- /* An unparsable value is passed through as it is (and logged). */ -}}
+  {{- with partial "func/parse-url.html" (dict "url" $u) -}}
+    {{- $p := . -}}
+    {{- $suffix := "" -}}
+    {{- with $p.RawQuery }}{{ $suffix = printf "?%s" . }}{{ end -}}
+    {{- with $p.Fragment }}{{ $suffix = printf "%s#%s" $suffix . }}{{ end -}}
+    {{- with site.GetPage (strings.TrimSuffix "/" $p.Path | default "/") -}}
+      {{- $u = printf "%s%s" .RelPermalink $suffix -}}
+    {{- else -}}
+      {{- $u = printf "%s%s" (strings.TrimPrefix "/" $p.Path | relURL) $suffix -}}
+    {{- end -}}
   {{- end -}}
 {{- end -}}
 {{- return $u -}}

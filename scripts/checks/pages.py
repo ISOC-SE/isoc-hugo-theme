@@ -96,6 +96,17 @@ def pages_edge_subpath_urls(ctx):
 
 
 @check
+def pages_edge_invalid_urls(ctx):
+    # An invalid URL in content is logged and must not stop the build. The link
+    # is still rendered; Go's escaping turns its href into "#ZgotmplZ".
+    body = ctx.edge.html("/bad-urls/").find(".entry-content")
+    link = body and body.find("a")
+    expect(link is not None and link.text() == "opening hours", "the page with invalid URLs should still render its link")
+    for value in ('"09:00-17:00" is not a valid URL', '"1a:b" is not a valid URL'):
+        expect(value in ctx.edge.log, f"edge log should warn: {value}")
+
+
+@check
 def pages_heading_levels(ctx):
     # One h1 per page and no skipped levels (ISOC chapter-template guidance, WCAG 1.3.1).
     for name, site in (("exampleSite", ctx.main), ("edge", ctx.edge)):

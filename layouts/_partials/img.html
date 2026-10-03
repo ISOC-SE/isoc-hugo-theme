@@ -31,10 +31,13 @@
 <img src="{{ $res.RelPermalink }}" alt="{{ $alt }}" loading="{{ $loading }}" decoding="async"{{ with $class }} class="{{ . }}"{{ end }}{{ with $title }} title="{{ . }}"{{ end }}>
   {{- end -}}
 {{- else if $src -}}
-  {{- if or (urls.Parse $src).IsAbs (hasPrefix $src "/") -}}
+  {{- /* func/resource.html has already warned if $src is not a valid URL. */ -}}
+  {{- $abs := false -}}
+  {{- with try (urls.Parse $src) }}{{ with .Value }}{{ $abs = .IsAbs }}{{ end }}{{ end -}}
+  {{- if or $abs (hasPrefix $src "/") -}}
     {{- $url := $src -}}
     {{- /* relURL leaves "/x" host-relative, so drop the slash to keep a sub-path base. */ -}}
-    {{- if not (urls.Parse $src).IsAbs }}{{ $url = strings.TrimPrefix "/" $src | relURL }}{{ end -}}
+    {{- if not $abs }}{{ $url = strings.TrimPrefix "/" $src | relURL }}{{ end -}}
 <img src="{{ $url }}" alt="{{ $alt }}" loading="{{ $loading }}" decoding="async"{{ with $class }} class="{{ . }}"{{ end }}{{ with $title }} title="{{ . }}"{{ end }}>
   {{- else -}}
     {{- $from := "site configuration" -}}

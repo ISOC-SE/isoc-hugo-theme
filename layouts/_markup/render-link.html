@@ -1,8 +1,8 @@
 {{- /* Content paths ("/about", "board") resolve to the current language's page;
        other root-relative paths keep the base path; external http(s) links get rel="noopener". */ -}}
-{{- $u := urls.Parse .Destination -}}
+{{- $u := partial "func/parse-url.html" (dict "url" .Destination "page" .PageInner) -}}
 {{- $href := .Destination -}}
-{{- if and (not $u.IsAbs) $u.Path -}}
+{{- if and $u (not $u.IsAbs) $u.Path -}}
   {{- with or (.PageInner.GetPage $u.Path) (.PageInner.Resources.Get $u.Path) -}}
     {{- $href = .RelPermalink -}}
     {{- with $u.RawQuery }}{{ $href = printf "%s?%s" $href . }}{{ end -}}
@@ -14,5 +14,5 @@
     {{- end -}}
   {{- end -}}
 {{- end -}}
-<a href="{{ $href }}"{{ with .Title }} title="{{ . }}"{{ end }}{{ if and $u.IsAbs (in (slice "http" "https") $u.Scheme) }} rel="noopener"{{ end }}>{{ .Text }}</a>
+<a href="{{ $href }}"{{ with .Title }} title="{{ . }}"{{ end }}{{ if and $u $u.IsAbs (in (slice "http" "https") $u.Scheme) }} rel="noopener"{{ end }}>{{ .Text }}</a>
 {{- /**/ -}}
