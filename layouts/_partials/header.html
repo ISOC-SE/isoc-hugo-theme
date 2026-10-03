@@ -12,7 +12,7 @@
       {{- end }}
       {{ partial "lang-switch.html" . }}
       {{- with site.Params.joinURL }}
-      <a class="btn btn--white btn--join" href="{{ . }}">{{ site.Params.joinLabel | default (T "join") }}</a>
+      <a class="btn btn--white btn--join" href="{{ . }}"{{ with partial "func/rel.html" . }} rel="{{ . }}"{{ end }}>{{ site.Params.joinLabel | default (T "join") }}</a>
       {{- end }}
     </div>
     {{- if site.Params.showSearch }}

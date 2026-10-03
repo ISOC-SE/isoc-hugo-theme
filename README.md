@@ -48,6 +48,10 @@ As a Hugo Module instead (needs Go):
     path = "github.com/ISOC-SE/isoc-hugo-theme"
 ```
 
+Pin the version you have reviewed, for example with
+`hugo mod get github.com/ISOC-SE/isoc-hugo-theme@<tag or commit>`, and commit
+`go.mod`/`go.sum`. (A git submodule is pinned to a commit already.)
+
 ## Configuration
 
 All settings live in your site's `hugo.toml`. Theme defaults are shown.
@@ -334,6 +338,28 @@ search entirely, set `showSearch = false`.
 **GitHub Pages:** see `.github/workflows/demo.yml` in this repository. It
 builds the demo site on every push and every night (`schedule:`), so event
 lists stay current. Copy it and replace the `exampleSite` paths with your site.
+
+### Security headers
+
+The theme loads nothing from other hosts and sends a
+`strict-origin-when-cross-origin` referrer policy. If your host lets you set
+HTTP headers, this Content-Security-Policy works with every page of the theme,
+search included:
+
+```text
+Content-Security-Policy: default-src 'self'; script-src 'self' 'sha256-tlTtfpdsMQSdcfX3DLM1fgx/y++BLw+48vFj+5cTJa0='; style-src 'self' 'unsafe-inline'; img-src 'self'; font-src 'self'; connect-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'
+```
+
+- The `sha256-…` value allows the one inline script (it swaps the `no-js`
+  class); it changes only if `layouts/_partials/head.html` does.
+- `'unsafe-inline'` in `style-src` is needed for banner images, the logo width
+  and `[params.colors]`, which are inline styles. Inline *scripts* stay blocked.
+- Add hosts to `img-src`/`frame-src` if your content embeds remote images or videos.
+
+GitHub Pages cannot set headers; there a `<meta http-equiv>` CSP would be the
+only option, and `frame-ancestors` does not work in a meta tag.
+
+Security problems in the theme: see [SECURITY.md](SECURITY.md).
 
 ## Development
 
