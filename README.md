@@ -382,6 +382,8 @@ menu). Then it runs the assertions in `scripts/checks/` and, when Chrome or
 Chromium is installed, `scripts/check_browser.py`. Those browser checks
 measure the header at several widths and click through the menus and search.
 Event checks follow the build time, so they stay valid as demo events pass.
+The same checks run on every pull request (`.github/workflows/checks.yml`);
+that workflow only builds and checks, it never deploys.
 
 | Path | What it is |
 |---|---|
