@@ -1,4 +1,5 @@
 {{- /* Context: dict "label" "url" ["style" "primary"|"secondary"|"white"]. */ -}}
 {{- $href := partial "func/url.html" (dict "url" .url) -}}
-<a class="btn{{ with .style }}{{ if ne . "primary" }} btn--{{ . }}{{ end }}{{ end }}" href="{{ $href }}"{{ with partial "func/rel.html" $href }} rel="{{ . }}"{{ end }}>{{ .label }}</a>
+{{- $rel := partial "func/rel.html" $href -}}
+<a class="btn{{ with .style }}{{ if ne . "primary" }} btn--{{ . }}{{ end }}{{ end }}" href="{{ $href }}"{{ with $rel }} rel="{{ . }}"{{ end }}>{{ .label }}</a>
 {{- /**/ -}}

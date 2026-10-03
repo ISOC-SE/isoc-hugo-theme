@@ -4,7 +4,8 @@
     <nav class="footer-nav" aria-label="{{ T "footerMenu" }}">
       <ul class="footer-menu">
         {{- range . }}
-        <li><a href="{{ .URL }}"{{ with partial "func/rel.html" .URL }} rel="{{ . }}"{{ end }}{{ if $.IsMenuCurrent .Menu . }} aria-current="page"{{ end }}>{{ .Name }}</a></li>
+        {{- $rel := partial "func/rel.html" .URL }}
+        <li><a href="{{ .URL }}"{{ with $rel }} rel="{{ . }}"{{ end }}{{ if $.IsMenuCurrent .Menu . }} aria-current="page"{{ end }}>{{ .Name }}</a></li>
         {{- end }}
       </ul>
     </nav>

@@ -29,3 +29,14 @@ def core_subpath_build_links_resolve(ctx):
     # The demo workflow deploys exampleSite under /isoc-hugo-theme/ (GitHub Pages).
     broken = ctx.main_sub.broken_links()
     expect(not broken, f"exampleSite under a sub-path has {len(broken)} broken links:\n  " + "\n  ".join(broken[:20]))
+
+
+@check
+def core_no_template_escaping_residue(ctx):
+    # "ZgotmplZ" is what Go's html/template prints when it refuses a value in a
+    # context (e.g. an action in attribute-name position). It must never reach the
+    # output, except the edge fixture's deliberately invalid link on /bad-urls/.
+    for name, site in (("exampleSite", ctx.main), ("exampleSite (sub-path)", ctx.main_sub), ("edge", ctx.edge)):
+        bad = [rel for rel in site.html_files()
+               if "ZgotmplZ" in site.read(rel) and not rel.startswith("bad-urls/")]
+        expect(not bad, f"{name}: ZgotmplZ in {len(bad)} pages, e.g. {bad[:5]}")

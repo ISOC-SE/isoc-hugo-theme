@@ -11,7 +11,7 @@
   {{- end }}
   {{- if $p.Params.online }}
   <dt>{{ partial "icon.html" (dict "name" "video") }}{{ T "online" }}</dt>
-  <dd>{{ with $p.Params.online_url }}<a href="{{ . }}"{{ with partial "func/rel.html" . }} rel="{{ . }}"{{ end }}>{{ T "joinOnline" }}</a>{{ else }}{{ T "online" }}{{ end }}</dd>
+  <dd>{{ with $p.Params.online_url }}{{ $rel := partial "func/rel.html" . }}<a href="{{ . }}"{{ with $rel }} rel="{{ . }}"{{ end }}>{{ T "joinOnline" }}</a>{{ else }}{{ T "online" }}{{ end }}</dd>
   {{- end }}
   {{- with $p.Params.organizer }}
   <dt>{{ partial "icon.html" (dict "name" "user") }}{{ T "organizer" }}</dt>
@@ -24,7 +24,8 @@
   <p class="event-details__closed">{{ T "registrationClosed" }}</p>
   {{- else }}
   {{- with $p.Params.registration_url }}
-  <a class="btn" href="{{ . }}"{{ with partial "func/rel.html" . }} rel="{{ . }}"{{ end }}>{{ T "register" }}</a>
+  {{- $rel := partial "func/rel.html" . }}
+  <a class="btn" href="{{ . }}"{{ with $rel }} rel="{{ . }}"{{ end }}>{{ T "register" }}</a>
   {{- end }}
   {{- end }}
   {{- end }}
