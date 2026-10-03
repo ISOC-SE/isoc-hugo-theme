@@ -236,7 +236,7 @@ class Site:
 
 
 def ics_events(site, section):
-    """Events of one built section, read from their generated event.ics files.
+    """Events of one built section and its subsections, read from their event.ics files.
 
     Returns dicts {title, rel, start, end, past?} sorted by start; start/end are
     aware UTC datetimes (all-day events: midnight UTC of the DATE values).
@@ -244,10 +244,11 @@ def ics_events(site, section):
     import datetime as dt
     root = os.path.join(site.public, section.strip("/"))
     events = []
-    for name in sorted(os.listdir(root)) if os.path.isdir(root) else []:
-        ics = os.path.join(root, name, "event.ics")
-        if not os.path.isfile(ics):
+    for dirpath, _, files in sorted(os.walk(root)) if os.path.isdir(root) else []:
+        if "event.ics" not in files:
             continue
+        ics = os.path.join(dirpath, "event.ics")
+        name = os.path.relpath(dirpath, root).replace(os.sep, "/")
         fields = {}
         with open(ics, encoding="utf-8", newline="") as fh:
             for line in fh.read().split("\r\n"):

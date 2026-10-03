@@ -1,10 +1,20 @@
 {{ define "main" }}
 {{ partial "banner.html" (dict "page" .) }}
-{{- $ev := partialCached "func/events.html" site.Home site.Language.Name }}
+{{- /* The events section lists every event of the language (events are found by type).
+       A subsection, such as a folder per year, lists only its own events. */ -}}
+{{- $sub := and .Parent (eq .Parent.Type "events") }}
+{{- $ev := dict }}
+{{- if $sub }}
+{{- $ev = partial "func/events-in.html" .RegularPagesRecursive }}
+{{- else }}
+{{- $ev = partialCached "func/events.html" site.Home site.Language.Name }}
+{{- end }}
 <div class="wrap wrap--1180 section">
   {{- if .Content }}
   <div class="list-intro">{{ partial "page-content.html" . }}</div>
   {{- end }}
+  {{ partial "event-sections-nav.html" . }}
+  {{- if or (not $sub) $ev.upcoming }}
   <section class="events-group events-group--upcoming" aria-labelledby="events-upcoming">
     <h2 id="events-upcoming">{{ T "upcomingEvents" }}</h2>
     {{- with $ev.upcoming }}
@@ -13,6 +23,7 @@
     <p class="events-empty">{{ T "noUpcomingEvents" }}</p>
     {{- end }}
   </section>
+  {{- end }}
   {{- with $ev.past }}
   <section class="events-group events-group--past" aria-labelledby="events-past">
     <h2 id="events-past">{{ T "pastEvents" }}</h2>

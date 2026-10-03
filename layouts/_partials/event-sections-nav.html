@@ -1,0 +1,14 @@
+{{- /* Links between the events section and its subsections (e.g. one folder per year),
+       newest first. Rendered only when the events section has subsections. */ -}}
+{{- $current := . -}}
+{{- $top := cond (and .Parent (eq .Parent.Type "events")) .Parent . -}}
+{{- with $top.Sections -}}
+<nav aria-label="{{ T "eventSections" }}">
+  <ul class="category-nav event-sections">
+    <li><a href="{{ $top.RelPermalink }}"{{ if eq $top $current }} aria-current="page"{{ end }}>{{ T "allEvents" }}</a></li>
+    {{- range sort . "Path" "desc" }}
+    <li><a href="{{ .RelPermalink }}"{{ if eq . $current }} aria-current="page"{{ end }}>{{ .LinkTitle }}</a></li>
+    {{- end }}
+  </ul>
+</nav>
+{{- end -}}

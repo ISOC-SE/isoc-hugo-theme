@@ -116,3 +116,33 @@ def events_edge_timezones_and_all_day(ctx):
     titles = _group_titles(ctx.edge.html("/events/"), "upcoming")
     expect(titles == ["No offset", "All day", "No end"], f"edge upcoming order {titles}")
     expect(_group_titles(ctx.edge.html("/events/"), "past") == ["Past event"], "edge past events")
+
+
+@check
+def events_year_subsections(ctx):
+    # A subsection (one folder per year) lists only its own events and links back;
+    # the main list still shows every event and links to each year.
+    for top, year, title in (("/events/", "/events/2025/", "Annual general meeting 2025"),
+                             ("/sv/evenemang/", "/sv/evenemang/2025/", "Årsstämma 2025")):
+        upcoming, past = split_events(ics_events(ctx.main, year), ctx.now)
+        root = ctx.main.html(year)
+        expect([e["title"] for e in upcoming + past] == [title], f"{year}: expected only {title!r}")
+        expect(_group_titles(root, "past") + _group_titles(root, "upcoming") == [title],
+               f"{year} lists {_group_titles(root, 'upcoming') + _group_titles(root, 'past')}")
+        if not upcoming:
+            expect(root.find(".events-group--upcoming") is None, f"{year}: no empty upcoming group on a year page")
+        for page, current in ((top, top), (year, year)):
+            links = ctx.main.html(page).select(".event-sections a")
+            hrefs = [a.attrs["href"] for a in links]
+            expect(hrefs == [top, year], f"{page}: section links {hrefs}")
+            here = [a.attrs["href"] for a in links if a.attrs.get("aria-current") == "page"]
+            expect(here == [current], f"{page}: aria-current on {here}")
+        expect(title in _group_titles(ctx.main.html(top), "past") + _group_titles(ctx.main.html(top), "upcoming"),
+               f"{top} must still list {title!r}")
+    sub = [a.attrs["href"] for a in ctx.main_sub.html("/events/2025/").select(".event-sections a")]
+    expect(sub == ["/isoc-hugo-theme/events/", "/isoc-hugo-theme/events/2025/"], f"sub-path links {sub}")
+
+
+@check
+def events_without_subsections_have_no_year_nav(ctx):
+    expect(ctx.edge.html("/events/").find(".event-sections") is None, "edge events have no subsections, so no section nav")

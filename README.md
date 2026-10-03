@@ -228,6 +228,11 @@ summary: A full day about technology and the Internet.
 - Each event gets an `event.ics` file for calendars.
 - "Upcoming" and "past" are decided **when the site is built**. Rebuild the
   site at least daily (the included GitHub workflow does) so finished events move to "past".
+- Events can be grouped in subfolders, for example one per year
+  (`content/<lang>/events/2025/`). Give each folder an `_index.md` with
+  `title: Events 2025` and `linkTitle: "2025"`, and it gets its own list page
+  with only its events. The events page and the folders link to each other,
+  newest first. The events page itself still lists every event.
 
 ### Homepage blocks (`content/<lang>/_index.md`)
 
