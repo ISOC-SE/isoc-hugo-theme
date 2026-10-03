@@ -100,3 +100,52 @@ def posts_edge_minimal_post(ctx):
     expect(card.find(".card__image") is None and card.find(".card__tags") is None, "no empty thumbnail/tags")
     post = ctx.edge.html("/posts/plain-post/")
     expect(post.find(".banner__above") is None and post.find("figure") is None, "no empty categories/figure")
+
+
+def _consultation_rows(root):
+    return [[td.text() for td in tr.select("td")] for tr in root.select("table.consultations tbody tr")]
+
+
+@check
+def posts_consultation_details(ctx):
+    box = ctx.main.html("/posts/eu-data-retention-response/").find("article aside.consultation-details")
+    expect(box is not None, "a post with consultation front matter needs the details box")
+    expect(box.find("h2").text() == "About the response", "details box heading")
+    expect([d.text() for d in box.select("dt")] == ["Submitted to", "Reference", "Together with"], "details box labels")
+    expect([d.text() for d in box.select("dd")] == ["European Commission", "Ares(2025)4081079",
+                                                    "Another chapter, A digital rights group"], "details box values")
+    links = box.select(".consultation-details__actions a")
+    expect(links[0].attrs.get("href") == "/posts/eu-data-retention-response/response.pdf"
+           and links[0].text() == "Read our response" and "rel" not in links[0].attrs, "document button from the page bundle")
+    expect(links[1].attrs.get("href", "").startswith("https://ec.europa.eu/") and links[1].attrs.get("rel") == "noopener",
+           "consultation link button")
+    expect(ctx.main.exists("posts/eu-data-retention-response/response.pdf"), "the bundled document must be published")
+    sv = ctx.main.html("/sv/nyheter/yttrande-datalagring/").find("aside.consultation-details")
+    expect(sv.find("h2").text() == "Om svaret" and sv.find("dt").text() == "Mottagare", "sv details box")
+    expect(ctx.main.html("/posts/why-encryption-matters/").find("aside.consultation-details") is None,
+           "posts without consultation front matter have no details box")
+    old = ctx.edge.html("/posts/consultation-old/").find("aside.consultation-details")
+    expect(old.select("dd")[-1].text() == "One partner", "joint_with may be a plain string")
+    expect(old.find(".consultation-details__actions a").attrs.get("href") == "/sub/files/x.pdf", "static-path document keeps the base path")
+    missing = ctx.edge.html("/posts/consultation-missing-doc/").find("aside.consultation-details")
+    expect(missing.find(".consultation-details__actions") is None, "no buttons when the document is missing and there is no url")
+    expect('consultation-missing-doc/: consultation.document "nowhere.pdf" not found' in ctx.edge.log,
+           "edge log should warn about the missing document")
+
+
+@check
+def posts_consultations_table(ctx):
+    table = ctx.main.html("/shortcodes/").find("table.consultations")
+    expect(table is not None, "consultations shortcode table missing")
+    expect([th.text() for th in table.select("th")] == ["Year", "Consultation", "Submitted to", "Reference"], "table headers")
+    expect(_consultation_rows(ctx.main.html("/shortcodes/")) == [["2025", "EU metadata retention", "European Commission", "Ares(2025)4081079"]],
+           "only the current language's consultation posts, topic before title")
+    expect(table.find("a").attrs.get("href") == "/posts/eu-data-retention-response/", "row links to the post")
+    edge = ctx.edge.html("/consultations/")
+    tables = edge.select("table.consultations")
+    expect(len(tables) == 2, "edge page has two consultation tables")
+    asc = [[td.text() for td in tr.select("td")] for tr in tables[0].select("tbody tr")]
+    expect([r[1] for r in asc] == ["Old consultation response", "Missing document"], f"order=asc, title as fallback: {asc}")
+    desc = [[td.text() for td in tr.select("td")] for tr in tables[1].select("tbody tr")]
+    expect([r[0] for r in desc] == ["2020", "2019"], f"invalid order falls back to newest first: {desc}")
+    expect('consultations order="sideways" is not asc or desc' in ctx.edge.log, "edge log should warn about the invalid order")

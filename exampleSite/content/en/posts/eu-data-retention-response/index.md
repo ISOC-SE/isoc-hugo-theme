@@ -6,6 +6,13 @@ categories: [Privacy, Internet governance]
 tags: [encryption]
 authors: [The Board]
 summary: We told the European Commission that end-to-end encryption must never be broken.
+consultation:
+  topic: EU metadata retention
+  recipient: European Commission
+  reference: Ares(2025)4081079
+  document: response.pdf
+  url: https://ec.europa.eu/info/law/better-regulation/have-your-say/initiatives/14680-Impact-assessment-on-retention-of-data-by-service-providers-for-criminal-proceedings-_en
+  joint_with: [Another chapter, A digital rights group]
 ---
 The European Commission invited us to comment on its call for evidence about metadata retention for criminal proceedings. We thank the Commission for the opportunity and summarise our position here.
 

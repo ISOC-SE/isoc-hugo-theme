@@ -5,6 +5,9 @@
 <article class="wrap wrap--1180 section post">
   {{ partial "featured-image.html" . }}
   {{ partial "page-content.html" . }}
+  {{- if .Params.consultation }}
+  {{ partial "consultation-details.html" . }}
+  {{- end }}
 </article>
 {{ partial "related-posts.html" . }}
 {{ end }}

@@ -1,0 +1,35 @@
+{{- /* Facts box for a consultation response. Context: PAGE with .Params.consultation. */ -}}
+{{- $c := .Params.consultation -}}
+{{- $doc := partial "func/consultation-document.html" . -}}
+{{- $joint := $c.joint_with -}}
+{{- if and $joint (not (reflect.IsSlice $joint)) }}{{ $joint = slice $joint }}{{ end -}}
+<aside class="consultation-details" aria-labelledby="consultation-details-title">
+  <h2 class="consultation-details__title" id="consultation-details-title">{{ T "consultationDetails" }}</h2>
+  <dl>
+    {{- with $c.recipient }}
+    <dt>{{ T "consultationRecipient" }}</dt>
+    <dd>{{ . }}</dd>
+    {{- end }}
+    {{- with $c.reference }}
+    <dt>{{ T "consultationReference" }}</dt>
+    <dd>{{ . }}</dd>
+    {{- end }}
+    {{- with $joint }}
+    <dt>{{ T "consultationJointWith" }}</dt>
+    <dd>{{ delimit . ", " }}</dd>
+    {{- end }}
+  </dl>
+  {{- if or $doc $c.url }}
+  <div class="consultation-details__actions">
+    {{- with $doc }}
+    {{- $rel := partial "func/rel.html" . }}
+    <a class="btn" href="{{ . }}"{{ with $rel }} rel="{{ . }}"{{ end }}>{{ T "consultationDocument" }}</a>
+    {{- end }}
+    {{- with $c.url }}
+    {{- $u := partial "func/url.html" (dict "url" .) }}
+    {{- $rel := partial "func/rel.html" $u }}
+    <a class="btn btn--secondary" href="{{ $u }}"{{ with $rel }} rel="{{ . }}"{{ end }}>{{ T "consultationLink" }}</a>
+    {{- end }}
+  </div>
+  {{- end }}
+</aside>

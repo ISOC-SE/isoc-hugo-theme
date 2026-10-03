@@ -12,7 +12,7 @@ Maintained by [ISOC-SE](https://isoc.se), the Swedish chapter. Other chapters ar
 - The chapter look: navy header with Join button, pattern banners, Hind type, ISOC colours.
 - Homepage built from blocks (hero, intro, image + text, stats, latest news,
   upcoming events, quote, call to action, gallery), plus the same pieces as shortcodes.
-- News with categories, related posts, pagination, a monthly archive and RSS.
+- News with categories, related posts, pagination, a monthly archive and RSS, plus consultation responses with a facts box and an overview table.
 - Events with upcoming/past lists and an "Add to calendar" `.ics` file per event.
 - Search in the browser (Fuse.js) over an index built with the site.
 - English and Swedish built in; any number of languages with a language switcher.
@@ -205,6 +205,26 @@ summary: Shown on cards, in search results and in social previews.
 
 For a monthly archive, add a page with `layout: archive`.
 
+#### Consultation responses
+
+A post about a response to a public consultation (a *remissvar*, a submission
+to a regulator, a call for evidence) can carry the facts about it:
+
+```yaml
+consultation:
+  topic: EU metadata retention       # short name for the overview table (defaults to the title)
+  recipient: European Commission
+  reference: Ares(2025)4081079
+  document: response.pdf             # page bundle file, assets/ path, /static path or URL
+  url: https://ec.europa.eu/…        # the consultation itself
+  joint_with: [Another chapter]      # a list or one name
+```
+
+The post then ends with a box showing the recipient, reference and partners,
+with buttons to the document and the consultation. A `document` that can't be
+found logs a warning. List every such post in the current language, newest
+first, with the `consultations` shortcode (see below), for example on a policy page.
+
 ### Events (`content/<lang>/events/`)
 
 ```yaml
@@ -306,6 +326,7 @@ Markdown text next to the image.
 
 {{< gallery >}}                  <!-- images in this page bundle; match="photos/*" to filter -->
 {{< latest-posts count="4" >}}
+{{< consultations order="desc" >}}  <!-- table of posts with consultation front matter; order="asc" for oldest first -->
 {{< upcoming-events count="3" >}}
 
 {{< cta title="Join the chapter" url="/membership" label="Become a member" background="navy" >}}

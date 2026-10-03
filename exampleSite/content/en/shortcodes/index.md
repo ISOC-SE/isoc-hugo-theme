@@ -13,6 +13,12 @@ This page exists only in English, so the language switcher sends Swedish readers
 {{< button url="/membership" >}}Become a member{{< /button >}}
 {{< button url="/contact" style="secondary" >}}Contact us{{< /button >}}
 
+## Consultation responses
+
+Posts with `consultation` in their front matter, newest first:
+
+{{< consultations >}}
+
 ## Notice
 
 {{< notice >}}
