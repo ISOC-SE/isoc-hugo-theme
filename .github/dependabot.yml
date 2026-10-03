@@ -1,0 +1,8 @@
+# Keeps the SHA-pinned GitHub Actions up to date (the version comment is updated too).
+# Hugo is pinned by HUGO_VERSION in the workflows and updated by hand.
+version: 2
+updates:
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: weekly
