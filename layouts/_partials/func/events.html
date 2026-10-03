@@ -1,10 +1,3 @@
 {{- /* Upcoming (ascending) and past (descending) events for the current language.
        Call with partialCached "func/events.html" . site.Language.Name */ -}}
-{{- $up := slice -}}
-{{- $past := slice -}}
-{{- range where site.RegularPages "Type" "events" -}}
-  {{- $d := partial "func/event-dates.html" . -}}
-  {{- $entry := dict "page" . "ts" $d.start.Unix -}}
-  {{- if $d.past }}{{ $past = $past | append $entry }}{{ else }}{{ $up = $up | append $entry }}{{ end -}}
-{{- end -}}
-{{- return dict "upcoming" (sort $up "ts" "asc") "past" (sort $past "ts" "desc") -}}
+{{- return partial "func/events-in.html" site.RegularPages -}}
